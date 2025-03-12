@@ -16,6 +16,8 @@ import {
 import BentoGrid from '@/components/BentoGrid';
 import BentoItem from '@/components/BentoItem';
 import Header from '@/components/Header';
+import ConfidenceRules from '@/components/ConfidenceRules';
+import BookQuotes from '@/components/BookQuotes';
 import { cn } from '@/lib/utils';
 
 const Index = () => {
@@ -278,6 +280,12 @@ const Index = () => {
           </div>
         </BentoItem>
       </BentoGrid>
+      
+      {/* Ten Rules to Build Confidence */}
+      <ConfidenceRules />
+      
+      {/* Key Quotes from the Book */}
+      <BookQuotes />
       
       <motion.footer
         className="w-full py-8 text-center text-white/50 text-sm"
