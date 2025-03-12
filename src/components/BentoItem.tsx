@@ -50,7 +50,7 @@ const BentoItem: React.FC<BentoItemProps> = ({
     >
       <div className="bento-item-content">
         {chip && (
-          <span className="chip animate-fade-in" style={{ animationDelay: `${delay * 100 + 200}ms` }}>
+          <span className="chip animate-fade-in mb-4" style={{ animationDelay: `${delay * 100 + 200}ms` }}>
             {chip}
           </span>
         )}
