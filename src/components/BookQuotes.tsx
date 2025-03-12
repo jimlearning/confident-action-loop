@@ -8,65 +8,65 @@ import BentoItem from './BentoItem';
 const BookQuotes = () => {
   // Array of gradient backgrounds for variety
   const gradients = [
-    'bg-gradient-to-br from-purple-900/30 to-purple-800/20',
-    'bg-gradient-to-br from-blue-900/30 to-blue-800/20',
-    'bg-gradient-to-br from-green-900/30 to-green-800/20',
-    'bg-gradient-to-br from-teal-900/30 to-teal-800/20',
+    'bg-gradient-to-br from-purple-500/10 to-purple-600/5 dark:from-purple-900/30 dark:to-purple-800/20',
+    'bg-gradient-to-br from-blue-500/10 to-blue-600/5 dark:from-blue-900/30 dark:to-blue-800/20',
+    'bg-gradient-to-br from-green-500/10 to-green-600/5 dark:from-green-900/30 dark:to-green-800/20',
+    'bg-gradient-to-br from-teal-500/10 to-teal-600/5 dark:from-teal-900/30 dark:to-teal-800/20',
   ];
   
   // Array of border colors
   const borders = [
-    'border-purple-900/30',
-    'border-blue-900/30',
-    'border-green-900/30',
-    'border-teal-900/30',
+    'border-purple-200/30 dark:border-purple-900/30',
+    'border-blue-200/30 dark:border-blue-900/30',
+    'border-green-200/30 dark:border-green-900/30',
+    'border-teal-200/30 dark:border-teal-900/30',
   ];
   
   // Array of accent colors for quotes
   const accentColors = [
-    'text-purple-300',
-    'text-blue-300',
-    'text-green-300',
-    'text-teal-300',
+    'text-purple-600 dark:text-purple-300',
+    'text-blue-600 dark:text-blue-300',
+    'text-green-600 dark:text-green-300',
+    'text-teal-600 dark:text-teal-300',
   ];
   
   // Icons for each quote section
   const sectionIcons = [
-    <Quote className="w-5 h-5 text-purple-400" />,
-    <MessageSquareQuote className="w-5 h-5 text-blue-400" />,
-    <BookOpen className="w-5 h-5 text-green-400" />,
-    <PilcrowSquare className="w-5 h-5 text-teal-400" />,
+    <Quote className="w-5 h-5 text-purple-600 dark:text-purple-400" />,
+    <MessageSquareQuote className="w-5 h-5 text-blue-600 dark:text-blue-400" />,
+    <BookOpen className="w-5 h-5 text-green-600 dark:text-green-400" />,
+    <PilcrowSquare className="w-5 h-5 text-teal-600 dark:text-teal-400" />,
   ];
   
   // Various icons for individual quotes to create more variety
   const quoteIcons = {
     purple: [
-      <Quote key="p1" className="w-7 h-7 text-purple-300 mt-1 flex-shrink-0" />,
-      <MessageSquareQuote key="p2" className="w-7 h-7 text-purple-300 mt-1 flex-shrink-0" />,
-      <BookOpen key="p3" className="w-7 h-7 text-purple-300 mt-1 flex-shrink-0" />,
-      <PilcrowSquare key="p4" className="w-7 h-7 text-purple-300 mt-1 flex-shrink-0" />,
-      <Quote key="p5" className="w-7 h-7 text-purple-300 mt-1 flex-shrink-0 transform rotate-180" />,
+      <Quote key="p1" className="w-7 h-7 text-purple-600 dark:text-purple-300 mt-1 flex-shrink-0" />,
+      <MessageSquareQuote key="p2" className="w-7 h-7 text-purple-600 dark:text-purple-300 mt-1 flex-shrink-0" />,
+      <BookOpen key="p3" className="w-7 h-7 text-purple-600 dark:text-purple-300 mt-1 flex-shrink-0" />,
+      <PilcrowSquare key="p4" className="w-7 h-7 text-purple-600 dark:text-purple-300 mt-1 flex-shrink-0" />,
+      <Quote key="p5" className="w-7 h-7 text-purple-600 dark:text-purple-300 mt-1 flex-shrink-0 transform rotate-180" />,
     ],
     blue: [
-      <MessageSquareQuote key="b1" className="w-7 h-7 text-blue-300 mt-1 flex-shrink-0" />,
-      <Quote key="b2" className="w-7 h-7 text-blue-300 mt-1 flex-shrink-0" />,
-      <BookOpen key="b3" className="w-7 h-7 text-blue-300 mt-1 flex-shrink-0" />,
-      <PilcrowSquare key="b4" className="w-7 h-7 text-blue-300 mt-1 flex-shrink-0" />,
-      <MessageSquareQuote key="b5" className="w-7 h-7 text-blue-300 mt-1 flex-shrink-0 transform -scale-x-100" />,
+      <MessageSquareQuote key="b1" className="w-7 h-7 text-blue-600 dark:text-blue-300 mt-1 flex-shrink-0" />,
+      <Quote key="b2" className="w-7 h-7 text-blue-600 dark:text-blue-300 mt-1 flex-shrink-0" />,
+      <BookOpen key="b3" className="w-7 h-7 text-blue-600 dark:text-blue-300 mt-1 flex-shrink-0" />,
+      <PilcrowSquare key="b4" className="w-7 h-7 text-blue-600 dark:text-blue-300 mt-1 flex-shrink-0" />,
+      <MessageSquareQuote key="b5" className="w-7 h-7 text-blue-600 dark:text-blue-300 mt-1 flex-shrink-0 transform -scale-x-100" />,
     ],
     green: [
-      <BookOpen key="g1" className="w-7 h-7 text-green-300 mt-1 flex-shrink-0" />,
-      <Quote key="g2" className="w-7 h-7 text-green-300 mt-1 flex-shrink-0" />,
-      <MessageSquareQuote key="g3" className="w-7 h-7 text-green-300 mt-1 flex-shrink-0" />,
-      <PilcrowSquare key="g4" className="w-7 h-7 text-green-300 mt-1 flex-shrink-0" />,
-      <BookOpen key="g5" className="w-7 h-7 text-green-300 mt-1 flex-shrink-0 transform -scale-x-100" />,
+      <BookOpen key="g1" className="w-7 h-7 text-green-600 dark:text-green-300 mt-1 flex-shrink-0" />,
+      <Quote key="g2" className="w-7 h-7 text-green-600 dark:text-green-300 mt-1 flex-shrink-0" />,
+      <MessageSquareQuote key="g3" className="w-7 h-7 text-green-600 dark:text-green-300 mt-1 flex-shrink-0" />,
+      <PilcrowSquare key="g4" className="w-7 h-7 text-green-600 dark:text-green-300 mt-1 flex-shrink-0" />,
+      <BookOpen key="g5" className="w-7 h-7 text-green-600 dark:text-green-300 mt-1 flex-shrink-0 transform -scale-x-100" />,
     ],
     teal: [
-      <PilcrowSquare key="t1" className="w-7 h-7 text-teal-300 mt-1 flex-shrink-0" />,
-      <Quote key="t2" className="w-7 h-7 text-teal-300 mt-1 flex-shrink-0" />,
-      <MessageSquareQuote key="t3" className="w-7 h-7 text-teal-300 mt-1 flex-shrink-0" />,
-      <BookOpen key="t4" className="w-7 h-7 text-teal-300 mt-1 flex-shrink-0" />,
-      <PilcrowSquare key="t5" className="w-7 h-7 text-teal-300 mt-1 flex-shrink-0 transform rotate-180" />,
+      <PilcrowSquare key="t1" className="w-7 h-7 text-teal-600 dark:text-teal-300 mt-1 flex-shrink-0" />,
+      <Quote key="t2" className="w-7 h-7 text-teal-600 dark:text-teal-300 mt-1 flex-shrink-0" />,
+      <MessageSquareQuote key="t3" className="w-7 h-7 text-teal-600 dark:text-teal-300 mt-1 flex-shrink-0" />,
+      <BookOpen key="t4" className="w-7 h-7 text-teal-600 dark:text-teal-300 mt-1 flex-shrink-0" />,
+      <PilcrowSquare key="t5" className="w-7 h-7 text-teal-600 dark:text-teal-300 mt-1 flex-shrink-0 transform rotate-180" />,
     ],
   };
 
@@ -99,7 +99,7 @@ const BookQuotes = () => {
           <div className="grid grid-cols-1 gap-4 mt-2">
             {/* Enhanced styling for each quote with different icons */}
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -110,7 +110,7 @@ const BookQuotes = () => {
             </motion.div>
             
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -121,7 +121,7 @@ const BookQuotes = () => {
             </motion.div>
             
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -132,7 +132,7 @@ const BookQuotes = () => {
             </motion.div>
             
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -143,7 +143,7 @@ const BookQuotes = () => {
             </motion.div>
             
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -166,7 +166,7 @@ const BookQuotes = () => {
         >
           <div className="grid grid-cols-1 gap-4 mt-2">
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -177,7 +177,7 @@ const BookQuotes = () => {
             </motion.div>
             
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -188,7 +188,7 @@ const BookQuotes = () => {
             </motion.div>
             
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -199,7 +199,7 @@ const BookQuotes = () => {
             </motion.div>
             
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -210,7 +210,7 @@ const BookQuotes = () => {
             </motion.div>
             
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -233,7 +233,7 @@ const BookQuotes = () => {
         >
           <div className="grid grid-cols-1 gap-4 mt-2">
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -244,7 +244,7 @@ const BookQuotes = () => {
             </motion.div>
             
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -255,7 +255,7 @@ const BookQuotes = () => {
             </motion.div>
             
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -266,7 +266,7 @@ const BookQuotes = () => {
             </motion.div>
             
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -277,7 +277,7 @@ const BookQuotes = () => {
             </motion.div>
             
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -300,7 +300,7 @@ const BookQuotes = () => {
         >
           <div className="grid grid-cols-1 gap-4 mt-2">
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -311,7 +311,7 @@ const BookQuotes = () => {
             </motion.div>
             
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -322,7 +322,7 @@ const BookQuotes = () => {
             </motion.div>
             
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -333,7 +333,7 @@ const BookQuotes = () => {
             </motion.div>
             
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
@@ -344,7 +344,7 @@ const BookQuotes = () => {
             </motion.div>
             
             <motion.div 
-              className="bg-white/10 p-4 rounded-lg border border-white/10 shadow-md backdrop-blur-sm"
+              className="bg-muted/30 dark:bg-white/10 p-4 rounded-lg border border-border shadow-md backdrop-blur-sm"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >

@@ -28,7 +28,7 @@ const Index = () => {
   }, [controls]);
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-white flex flex-col items-center overflow-x-hidden">
+    <div className="min-h-screen bg-background text-foreground flex flex-col items-center overflow-x-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-bento-purple/20 rounded-full filter blur-[120px] opacity-20" />

@@ -1,7 +1,7 @@
 
-import React from 'react';
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
+import React from 'react';
 import AnimatedTitle from './AnimatedTitle';
 
 interface BentoItemProps {
@@ -21,7 +21,7 @@ const BentoItem: React.FC<BentoItemProps> = ({
   title,
   children,
   className,
-  titleColor = "text-white",
+  titleColor = "text-foreground",
   colSpan = 1,
   rowSpan = 1,
   icon,
@@ -40,8 +40,8 @@ const BentoItem: React.FC<BentoItemProps> = ({
       )}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ 
-        delay: delay * 0.1, 
+      transition={{
+        delay: delay * 0.1,
         duration: 0.4,
         ease: [0.22, 1, 0.36, 1]
       }}
@@ -54,14 +54,14 @@ const BentoItem: React.FC<BentoItemProps> = ({
             {chip}
           </span>
         )}
-        
+
         <div className="flex items-center space-x-2 mb-3">
           {icon && (
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: delay * 0.1 + 0.2, duration: 0.3 }}
-              className="text-white/90"
+              className="text-foreground/90"
             >
               {icon}
             </motion.div>
@@ -70,9 +70,9 @@ const BentoItem: React.FC<BentoItemProps> = ({
             {title}
           </AnimatedTitle>
         </div>
-        
+
         <motion.div
-          className="mt-1 text-white/70 text-sm md:text-base"
+          className="mt-1 text-muted-foreground text-sm md:text-base"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: delay * 0.1 + 0.3, duration: 0.5 }}
