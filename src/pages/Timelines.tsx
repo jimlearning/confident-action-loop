@@ -1,16 +1,32 @@
 
 import Navbar from '@/components/Navbar';
-import { getAllCategories } from '@/utils/data';
+import { getTimelineData } from '@/utils/data';
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
-import CategoryItem from '@/components/categories/CategoryItem';
+import { Archive } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import YearSection from '@/components/timeline/YearSection';
 
-const Categories = () => {
-  const [categories, setCategories] = useState<any[]>([]);
+interface TimelineYear {
+  year: string;
+  books: Array<{
+    id: string;
+    title: string;
+    author: string;
+    date: string;
+    description: string;
+    category: string;
+    coverColor: string;
+    titleColor: string;
+    iconColor: string;
+  }>;
+}
+
+const Timelines = () => {
+  const [timelineData, setTimelineData] = useState<TimelineYear[]>([]);
   
   useEffect(() => {
-    const data = getAllCategories();
-    setCategories(data);
+    const data = getTimelineData();
+    setTimelineData(data.years);
   }, []);
 
   return (
@@ -23,20 +39,30 @@ const Categories = () => {
 
       <Navbar />
 
-      {/* Categories Header */}
+      {/* Timelines Header */}
       <motion.div
         className="w-full max-w-7xl px-4 md:px-8 mt-24 mb-12 text-center"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
+        <motion.div
+          className="inline-flex items-center justify-center gap-3 mb-4 px-4 py-2 rounded-full bg-primary/10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.1, duration: 0.5 }}
+        >
+          <Archive className="w-5 h-5 text-primary" />
+          <span className="text-primary font-medium">时间轴视图</span>
+        </motion.div>
+        
         <motion.h1
           className="text-4xl md:text-5xl font-bold mb-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
         >
-          书籍<span className="text-primary">分类</span>
+          阅读<span className="text-primary">时间轴</span>
         </motion.h1>
         <motion.p
           className="text-xl text-muted-foreground max-w-2xl mx-auto"
@@ -44,19 +70,19 @@ const Categories = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.5 }}
         >
-          按照不同主题浏览书籍，探索你感兴趣的领域
+          按照时间顺序查看我的阅读历程
         </motion.p>
       </motion.div>
 
-      {/* Categories List with Subcategories */}
+      {/* Timeline View */}
       <motion.div
-        className="w-full max-w-7xl px-4 md:px-8 mb-12"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-5xl px-4 md:px-8 mb-20"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.5 }}
       >
-        {categories.map((category) => (
-          <CategoryItem key={category.slug} category={category} />
+        {timelineData.map((yearData) => (
+          <YearSection key={yearData.year} {...yearData} />
         ))}
       </motion.div>
 
@@ -76,4 +102,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default Timelines;

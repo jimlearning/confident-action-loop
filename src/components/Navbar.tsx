@@ -1,200 +1,101 @@
-
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { 
-  Moon, Sun, Menu, X, BookOpen, Home, User, 
-  Tag, BookMarked, Clock, Archive 
-} from 'lucide-react';
-import { useTheme } from '@/hooks/use-theme';
-
-interface NavItemProps {
-  href: string;
-  label: string;
-  icon?: React.ReactNode;
-  isActive?: boolean;
-  onClick?: () => void;
-}
-
-const NavItem: React.FC<NavItemProps> = ({ href, label, icon, isActive, onClick }) => {
-  return (
-    <Link
-      to={href}
-      className={cn(
-        "flex items-center px-4 py-2 rounded-lg transition-colors",
-        isActive
-          ? "bg-primary/10 text-primary"
-          : "text-foreground/70 hover:text-foreground hover:bg-accent"
-      )}
-      onClick={onClick}
-    >
-      {icon && <span className="mr-2">{icon}</span>}
-      <span>{label}</span>
-    </Link>
-  );
-};
-
-const MobileNavItem: React.FC<NavItemProps> = ({ href, label, icon, isActive, onClick }) => {
-  return (
-    <Link
-      to={href}
-      className={cn(
-        "flex items-center px-4 py-3 rounded-lg transition-colors",
-        isActive
-          ? "bg-primary/10 text-primary"
-          : "text-foreground/70 hover:text-foreground hover:bg-accent"
-      )}
-      onClick={onClick}
-    >
-      {icon && <span className="mr-3">{icon}</span>}
-      <span className="text-lg">{label}</span>
-    </Link>
-  );
-};
+import { useTheme } from "@/hooks/use-theme";
+import { cn } from "@/lib/utils";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
+import { Link, useLocation } from "react-router-dom";
+import * as NavigationMenu from "@/components/ui/navigation-menu"
 
 const Navbar = () => {
-  const location = useLocation();
-  const [isOpen, setIsOpen] = useState(false);
-  const { theme, setTheme } = useTheme();
-  const [scrolled, setScrolled] = useState(false);
+  const { theme, setTheme } = useTheme()
+  const { pathname } = useLocation();
 
-  // Handle scroll effect
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const navItems = [
-    { href: '/', label: '首页', icon: <Home className="w-5 h-5" /> },
-    { href: '/categories', label: '分类', icon: <BookMarked className="w-5 h-5" /> },
-    { href: '/archives', label: '归档', icon: <Archive className="w-5 h-5" /> },
-    { href: '/tags', label: '标签', icon: <Tag className="w-5 h-5" /> },
-    { href: '/about', label: '关于我', icon: <User className="w-5 h-5" /> },
-  ];
-
-  const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
-  };
+  const linkClass =
+    "group flex h-9 w-max items-center justify-center rounded-md bg-background px-3 text-sm font-medium ring-offset-background transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[active]:bg-accent data-[active]:text-accent-foreground";
 
   return (
-    <motion.header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled ? "bg-background/80 backdrop-blur-md shadow-sm" : "bg-transparent"
-      )}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Link to="/" className="flex items-center space-x-2">
-          <BookOpen className="w-6 h-6 text-primary" />
-          <span className="font-bold text-xl">CheatSheets</span>
-        </Link>
+    <div className="w-full border-b">
+      <div className="flex h-16 items-center px-4">
+        <Link to="/" className="mr-4 font-bold text-xl">读书笔记</Link>
+        <div className="ml-auto flex items-center space-x-4">
+          <NavigationMenu.Root className="relative hidden md:block">
+            <NavigationMenu.List>
+              <NavigationMenu.Item>
+                <NavigationMenu.Link
+                  asChild
+                  active={pathname === '/'}
+                >
+                  <Link to="/" className={linkClass}>首页</Link>
+                </NavigationMenu.Link>
+              </NavigationMenu.Item>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-1">
-          {navItems.map((item) => (
-            <NavItem
-              key={item.href}
-              href={item.href}
-              label={item.label}
-              icon={item.icon}
-              isActive={location.pathname === item.href}
-            />
-          ))}
-        </nav>
+              <NavigationMenu.Item>
+                <NavigationMenu.Link
+                  asChild
+                  active={pathname.startsWith('/timelines')}
+                >
+                  <Link to="/timelines" className={linkClass}>时间轴</Link>
+                </NavigationMenu.Link>
+              </NavigationMenu.Item>
 
-        {/* Theme Toggle & Mobile Menu */}
-        <div className="flex items-center space-x-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleTheme}
-            className="rounded-full"
-            aria-label="Toggle theme"
-          >
-            {theme === 'dark' ? (
-              <Sun className="h-5 w-5" />
-            ) : (
-              <Moon className="h-5 w-5" />
-            )}
-          </Button>
+              <NavigationMenu.Item>
+                <NavigationMenu.Link
+                  asChild
+                  active={pathname.startsWith('/tags')}
+                >
+                  <Link to="/tags" className={linkClass}>标签</Link>
+                </NavigationMenu.Link>
+              </NavigationMenu.Item>
 
-          {/* Mobile Menu Trigger */}
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon" className="rounded-full">
-                <Menu className="h-5 w-5" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[80vw] sm:w-[350px] p-0">
-              <div className="flex flex-col h-full">
-                <div className="p-4 border-b">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <BookOpen className="w-6 h-6 text-primary" />
-                      <span className="font-bold text-xl">CheatSheets</span>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setIsOpen(false)}
-                      className="rounded-full"
-                    >
-                      <X className="h-5 w-5" />
-                    </Button>
-                  </div>
-                </div>
-                <nav className="flex-1 overflow-auto py-4 px-2 space-y-1">
-                  {navItems.map((item) => (
-                    <MobileNavItem
-                      key={item.href}
-                      href={item.href}
-                      label={item.label}
-                      icon={item.icon}
-                      isActive={location.pathname === item.href}
-                      onClick={() => setIsOpen(false)}
-                    />
-                  ))}
-                </nav>
-                <div className="p-4 border-t">
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start"
-                    onClick={() => {
-                      toggleTheme();
-                      setIsOpen(false);
-                    }}
-                  >
-                    {theme === 'dark' ? (
-                      <>
-                        <Sun className="mr-2 h-5 w-5" />
-                        <span>切换到浅色模式</span>
-                      </>
-                    ) : (
-                      <>
-                        <Moon className="mr-2 h-5 w-5" />
-                        <span>切换到深色模式</span>
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </div>
-            </SheetContent>
-          </Sheet>
+              <NavigationMenu.Item>
+                <NavigationMenu.Link
+                  asChild
+                  active={pathname.startsWith('/categories')}
+                >
+                  <Link to="/categories" className={linkClass}>分类</Link>
+                </NavigationMenu.Link>
+              </NavigationMenu.Item>
+
+              <NavigationMenu.Item>
+                <NavigationMenu.Link
+                  asChild
+                  active={pathname === '/about'}
+                >
+                  <Link to="/about" className={linkClass}>关于</Link>
+                </NavigationMenu.Link>
+              </NavigationMenu.Item>
+            </NavigationMenu.List>
+          </NavigationMenu.Root>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                className="group flex items-center rounded-md bg-background px-3 py-2 text-sm font-medium ring-offset-background transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
+              >
+                <SunIcon className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <MoonIcon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <span className="sr-only">Toggle theme</span>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                Light
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                Dark
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("system")}>
+                System
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
-    </motion.header>
-  );
-};
+    </div>
+  )
+}
 
 export default Navbar;

@@ -53,3 +53,36 @@ export function getAllTags() {
 export function getTagByName(name: string) {
   return tagsData.tags.find(tag => tag.name === name);
 }
+
+// Get related books for a book
+export async function getRelatedBooks(bookId: string, tags: string[], limit = 3) {
+  try {
+    const relatedBooksPromises = [];
+    
+    // First try to get books with the same tags
+    for (const tag of tags) {
+      const tagData = getTagByName(tag);
+      if (tagData && tagData.books) {
+        for (const tagBook of tagData.books) {
+          if (tagBook.id !== bookId) {
+            relatedBooksPromises.push(getBookData(tagBook.id));
+          }
+        }
+      }
+    }
+    
+    const relatedBooks = await Promise.all(relatedBooksPromises);
+    
+    // Filter out nulls and duplicates
+    const uniqueBooks = relatedBooks
+      .filter(book => book !== null)
+      .filter((book, index, self) => 
+        index === self.findIndex(b => b.id === book.id)
+      );
+    
+    return uniqueBooks.slice(0, limit);
+  } catch (error) {
+    console.error('Error fetching related books:', error);
+    return [];
+  }
+}

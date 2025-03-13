@@ -43,5 +43,31 @@
       "习惯是复利的力量，每天进步1%，一年后你将提升37倍",
       "你的习惯塑造了你的身份，而不仅仅是达成目标"
     ]
-  }
+  },
+  "quotes": [
+    {
+      "title": "关于习惯的力量",
+      "content": "习惯的力量在于，它们是让你成为谁的复合利息。同样的习惯，带来的成果在不同时期差别很大。",
+      "page": "15",
+      "titleColor": "text-blue-400",
+      "className": "from-blue-900/20 to-blue-800/10 border-blue-900/20",
+      "iconColor": "text-blue-400"
+    },
+    {
+      "title": "身份与行为",
+      "content": "真正的改变不是关注结果，而是关注你想成为谁。每次你选择执行一个习惯时，你不仅仅是在做某事，你是在成为某人。",
+      "page": "41",
+      "titleColor": "text-blue-400",
+      "className": "from-blue-900/20 to-blue-800/10 border-blue-900/20",
+      "iconColor": "text-blue-400"
+    },
+    {
+      "title": "两分钟法则",
+      "content": "当你开始一个新习惯时，它不应该花费超过两分钟来做。任何习惯都可以缩减到两分钟或更少。",
+      "page": "163",
+      "titleColor": "text-blue-400",
+      "className": "from-blue-900/20 to-blue-800/10 border-blue-900/20",
+      "iconColor": "text-blue-400"
+    }
+  ]
 }
