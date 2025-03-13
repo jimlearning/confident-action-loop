@@ -86,141 +86,85 @@ const BookDetail = () => {
     
     const fetchData = async () => {
       if (!bookId) {
-        console.warn('[BookDetail] 无效的书籍 ID');
         setError('无效的书籍 ID');
         return;
       }
 
       try {
-        if (!isMounted) {
-          console.log(`[BookDetail] 组件已卸载，取消加载 ${bookId}`);
-          return;
-        }
-
-        console.log(`[BookDetail] 开始加载书籍 ${bookId}，尝试次数: ${loadAttempt + 1}`);
-        console.log(`[BookDetail] 当前状态:`, { loading, error, bookId, loadAttempt });
+        if (!isMounted) return;
 
         setLoading(true);
         setError(null);
         controls.set({ opacity: 0, y: 20 });
         
-        // 获取书籍数据
-        console.log(`[BookDetail] 调用 getBookData(${bookId})...`);
         const bookData = await getBookData(bookId);
-        console.log(`[BookDetail] getBookData 返回结果:`, {
-          hasData: !!bookData,
-          dataType: bookData ? typeof bookData : 'null',
-          hasContent: bookData?.content ? 'yes' : 'no',
-          contentKeys: bookData?.content ? Object.keys(bookData.content) : []
-        });
         
-        if (controller.signal.aborted) {
-          console.log(`[BookDetail] 请求已取消，停止加载 ${bookId}`);
-          return;
-        }
-
-        if (!isMounted) {
-          console.log(`[BookDetail] 组件已卸载，停止加载 ${bookId}`);
-          return;
-        }
+        if (controller.signal.aborted || !isMounted) return;
         
         if (!bookData) {
-          console.error(`[BookDetail] 无法加载书籍 ${bookId}，数据为空`);
-          throw new Error(`无法加载书籍数据`);
+          throw new Error('无法加载书籍数据');
         }
 
         // 验证数据结构
         const requiredFields = ['id', 'title', 'content'] as const;
         const missingFields = requiredFields.filter(field => !(field in bookData));
         if (missingFields.length > 0) {
-          console.error(`[BookDetail] 书籍 ${bookId} 缺少必需字段:`, missingFields);
           throw new Error(`书籍数据结构不完整: 缺少 ${missingFields.join(', ')}`);
         }
 
         // 验证content结构
         const { misconception, reality, sections } = bookData.content;
         if (!misconception || !reality || !sections) {
-          console.error(`[BookDetail] 书籍 ${bookId} content结构不完整:`, {
-            hasMisconception: !!misconception,
-            hasReality: !!reality,
-            hasSections: !!sections
-          });
           throw new Error('书籍内容结构不完整');
         }
 
-        // 缓存数据
+        // 缓存数据并更新状态
         bookDataCache = bookData as BookData;
-        console.log(`[BookDetail] 书籍 ${bookId} 数据验证通过，准备更新状态`);
-        
-        // 等待下一帧以确保状态更新
         await new Promise(resolve => requestAnimationFrame(resolve));
         
-        if (controller.signal.aborted || !isMounted) {
-          console.log(`[BookDetail] 状态更新前检查失败，停止加载 ${bookId}`);
-          return;
-        }
+        if (controller.signal.aborted || !isMounted) return;
         
-        // 设置书籍数据
         setBook(bookDataCache);
-        console.log(`[BookDetail] 书籍 ${bookId} 状态已更新，检查相关书籍`);
         
         // 获取相关书籍
-        if (bookDataCache.tags && bookDataCache.tags.length > 0) {
+        if (bookDataCache.tags?.length > 0) {
           try {
-            console.log(`[BookDetail] 加载书籍 ${bookId} 的相关书籍...`);
             const related = await getRelatedBooks(bookId, bookDataCache.tags);
-            
-            if (controller.signal.aborted || !isMounted) {
-              console.log(`[BookDetail] 相关书籍加载被取消 ${bookId}`);
-              return;
+            if (isMounted && !controller.signal.aborted) {
+              setRelatedBooks(related as BookData[]);
             }
-            
-            setRelatedBooks(related as BookData[]);
-            console.log(`[BookDetail] 书籍 ${bookId} 的相关书籍已加载: ${related.length} 本`);
-          } catch (relatedError) {
-            console.error(`[BookDetail] 加载相关书籍失败:`, relatedError);
+          } catch {
             if (isMounted) setRelatedBooks([]);
           }
         }
 
-        // 最后更新状态
+        // 更新最终状态
         if (isMounted) {
           setLoading(false);
           setError(null);
           controls.start({ opacity: 1, y: 0 });
-          console.log(`[BookDetail] 书籍 ${bookId} 加载完成，所有状态已更新`);
         }
       } catch (error) {
-        console.error(`[BookDetail] 加载书籍 ${bookId} 失败:`, error);
-        
         if (isMounted) {
           const errorMessage = error instanceof Error ? error.message : '加载失败';
-          console.log(`[BookDetail] 设置错误状态: ${errorMessage}`);
           setError(errorMessage);
           setLoading(false);
           
           // 如果还有重试机会，则等待后重试
           if (loadAttempt < 2) {
-            const retryDelay = 2000;
-            console.log(`[BookDetail] 将在 ${retryDelay}ms 后重试加载书籍 ${bookId}`);
             setTimeout(() => {
               if (isMounted) {
-                console.log(`[BookDetail] 开始重试加载 ${bookId}`);
                 setLoadAttempt(prev => prev + 1);
               }
-            }, retryDelay);
-          } else {
-            console.log(`[BookDetail] 已达到最大重试次数，停止重试 ${bookId}`);
+            }, 2000);
           }
         }
       }
     };
 
-    console.log(`[BookDetail] 组件挂载，准备加载书籍 ${bookId}`);
     fetchData();
     
     return () => {
-      console.log(`[BookDetail] 组件卸载，清理书籍 ${bookId} 的状态`);
       isMounted = false;
       controller.abort();
       bookDataCache = null;

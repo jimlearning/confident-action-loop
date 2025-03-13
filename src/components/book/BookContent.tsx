@@ -27,81 +27,31 @@ const BookContent = ({ book, controls }: BookContentProps) => {
   const [validationError, setValidationError] = useState<string | null>(null);
 
   useEffect(() => {
-    const bookId = book?.id || 'unknown';
-    console.log(`BookContent组件: 开始验证书籍 ${bookId} 数据`);
-    
-    // 确保控件可用
+    // 验证必要的属性
     if (!controls) {
-      console.error(`BookContent组件: controls对象缺失`);
       setValidationError('动画控制器缺失');
       setIsReady(false);
       return;
     }
     
-    // 确保book对象存在
-    if (!book) {
-      console.error(`BookContent组件: book对象缺失`);
+    if (!book?.content) {
       setValidationError('书籍数据缺失');
       setIsReady(false);
       return;
     }
     
-    // 确保book.content存在
-    if (!book.content) {
-      console.error(`BookContent组件: 书籍 ${bookId} 的content字段缺失`, book);
-      setValidationError('书籍内容数据缺失');
-      setIsReady(false);
-      return;
-    }
-    
-    // 验证content的主要结构
+    // 验证内容结构
     const { misconception, reality, sections } = book.content;
     
-    console.log(`BookContent组件: 验证书籍 ${bookId} 的content字段`, {
-      hasMisconception: !!misconception,
-      hasReality: !!reality,
-      hasSections: !!sections,
-      sectionsIsArray: Array.isArray(sections)
-    });
-    
-    if (!misconception || !reality || !sections || !Array.isArray(sections)) {
-      console.error(`BookContent组件: 书籍 ${bookId} 的content结构无效`, { 
-        misconception, reality, sections 
-      });
-      setValidationError('书籍内容结构无效');
+    if (!misconception?.title || !misconception?.content || 
+        !reality?.title || !reality?.content || 
+        !Array.isArray(sections) || sections.length === 0) {
+      setValidationError('书籍内容结构不完整');
       setIsReady(false);
       return;
     }
     
-    // 验证misconception和reality的结构
-    console.log(`BookContent组件: 验证书籍 ${bookId} 的misconception和reality字段`, {
-      misconceptionComplete: !!(misconception.title && misconception.content),
-      realityComplete: !!(reality.title && reality.content)
-    });
-    
-    if (!misconception.title || !misconception.content || !reality.title || !reality.content) {
-      console.error(`BookContent组件: 书籍 ${bookId} 的misconception或reality字段缺失`, { 
-        misconception, reality 
-      });
-      setValidationError('书籍内容字段不完整');
-      setIsReady(false);
-      return;
-    }
-    
-    // 验证sections数组
-    console.log(`BookContent组件: 验证书籍 ${bookId} 的sections数组`, {
-      sectionsLength: sections.length
-    });
-    
-    if (sections.length === 0) {
-      console.error(`BookContent组件: 书籍 ${bookId} 的sections数组为空`);
-      setValidationError('书籍章节内容为空');
-      setIsReady(false);
-      return;
-    }
-    
-    // 所有验证通过
-    console.log(`BookContent组件: 书籍 ${bookId} 数据验证通过`);
+    // 验证通过
     setValidationError(null);
     setIsReady(true);
   }, [book, controls]);

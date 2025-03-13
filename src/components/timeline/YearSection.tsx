@@ -42,14 +42,17 @@ const YearSection = ({ year, books }: YearSectionProps) => {
       </motion.div>
 
       <div className="relative flex flex-col items-center gap-6">
-        {/* 中轴线 */}
-        <div className={cn(
-          "absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2 border-l border-dashed -z-1",
-          isDark ? "border-border" : "border-border"
-        )} />
-
         {books.map((book, index) => (
-          <TimelineItem key={book.id} book={book} index={index} />
+          <div key={book.id} className="relative w-full">
+            {/* 中轴线，只在非第一个项目的上方显示 */}
+            {index > 0 && (
+              <div className={cn(
+                "absolute left-1/2 top-[-24px] h-[24px] w-[2px] -translate-x-1/2 border-l border-dashed -z-1",
+                isDark ? "border-muted-foreground/75" : "border-muted-foreground/75"
+              )} />
+            )}
+            <TimelineItem book={book} index={index} />
+          </div>  
         ))}
       </div>
     </div>

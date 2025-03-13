@@ -18,7 +18,7 @@ interface PopularTagsProps {
 
 const PopularTags = ({ tags }: PopularTagsProps) => {
   return (
-    <div className="w-full max-w-6xl px-4 py-12">
+    <div className="w-full max-w-6xl px-4 py-12 mb-16">
       <motion.div
         className="mb-8 text-center"
         initial={{ opacity: 0, y: 20 }}

@@ -53,11 +53,11 @@ const Home = () => {
       {/* Hero Section */}
       <Hero data={homeData.header} />
       
-      {/* Popular Tags Section */}
-      <PopularTags tags={homeData.popularTags} />
-      
       {/* Recent Books Section */}
       <RecentBooks />
+      
+      {/* Popular Tags Section */}
+      <PopularTags tags={homeData.popularTags} />
       
       {/* Footer */}
       <motion.footer

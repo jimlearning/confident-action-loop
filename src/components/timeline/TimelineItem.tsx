@@ -34,7 +34,7 @@ const TimelineItem = ({ book, index, hasNext, hasPrev }: TimelineItemProps & { h
       transition={{ delay: index * 0.1, duration: 0.5 }}
     >
       {/* Timeline dot and connector */}
-      <div className="absolute left-0 top-0 h-full">
+      <div className="absolute left-4 top-0 h-full">
         <div className="relative h-full flex flex-col items-center">
           {/* 时间点 */}
           <div className="absolute top-[calc(50%-16px)] h-8 w-8 flex items-center justify-center bg-primary rounded-full z-10">
