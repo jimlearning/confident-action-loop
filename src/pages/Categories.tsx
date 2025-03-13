@@ -1,5 +1,4 @@
 
-import Navbar from '@/components/Navbar';
 import { getAllCategories } from '@/utils/data';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
@@ -20,8 +19,6 @@ const Categories = () => {
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-bento-purple/20 rounded-full filter blur-[120px] opacity-20" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-bento-blue/20 rounded-full filter blur-[120px] opacity-20" />
       </div>
-
-      <Navbar />
 
       {/* Categories Header */}
       <motion.div

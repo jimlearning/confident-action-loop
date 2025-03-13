@@ -1,7 +1,12 @@
 
 import { motion } from 'framer-motion';
 import { LightbulbIcon } from 'lucide-react';
-import { HomeHeader } from '@/resources/home.json';
+
+interface HomeHeader {
+  subtitle: string;
+  title: string;
+  description: string;
+}
 
 interface HeroProps {
   data: HomeHeader;

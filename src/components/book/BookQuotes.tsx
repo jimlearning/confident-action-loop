@@ -1,35 +1,23 @@
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { BookOpen, Quote } from 'lucide-react';
-import BentoGrid from '../BentoGrid';
-import BentoItem from '../BentoItem';
-import { getBookData } from '@/utils/data';
-import { useParams } from 'react-router-dom';
+import { cn } from '@/lib/utils';
+import { Quote } from 'lucide-react';
 
-const BookQuotes = () => {
-  const { bookId } = useParams<{ bookId: string }>();
-  const [quotes, setQuotes] = useState<any[]>([]);
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!bookId) return;
-      
-      try {
-        const bookData = await getBookData(bookId);
-        if (bookData && bookData.quotes) {
-          setQuotes(bookData.quotes);
-        }
-      } catch (error) {
-        console.error("Error loading book quotes:", error);
-      }
-    };
-    
-    fetchData();
-  }, [bookId]);
+interface BookQuote {
+  title: string;
+  content: string;
+  page: string;
+  titleColor: string;
+  className: string;
+  iconColor: string;
+}
 
-  if (!quotes || quotes.length === 0) return null;
-  
+interface BookQuotesProps {
+  quotes: BookQuote[];
+}
+
+const BookQuotes: React.FC<BookQuotesProps> = ({ quotes }) => {
   return (
     <motion.div
       className="w-full max-w-7xl px-4 md:px-8 mb-12"
@@ -37,31 +25,39 @@ const BookQuotes = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.8, duration: 0.5 }}
     >
-      <motion.h2 
-        className="text-2xl md:text-3xl font-bold mb-6 text-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.9, duration: 0.5 }}
-      >
-        精选书摘
-      </motion.h2>
-      
-      <BentoGrid className="px-4 md:px-8 mb-12">
-        {quotes.map((quote, index) => (
-          <BentoItem 
-            key={index}
-            title={quote.title || "书摘"} 
-            titleColor={quote.titleColor || "text-amber-400"}
-            className={`md:col-span-3 bg-gradient-to-br ${quote.className || "from-amber-900/20 to-amber-800/10 border-amber-900/20"}`}
-            icon={<Quote className={`w-5 h-5 ${quote.iconColor || "text-amber-400"}`} />}
-            chip={`书摘 ${index + 1}`}
-            delay={8 + index}
-          >
-            <p className="italic">{quote.content}</p>
-            {quote.page && <p className="text-right text-sm mt-2 text-muted-foreground">- 第 {quote.page} 页</p>}
-          </BentoItem>
-        ))}
-      </BentoGrid>
+      <div className="space-y-8">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl md:text-3xl font-bold">书中名言</h2>
+        </div>
+        
+        <div className="grid grid-cols-1 gap-4">
+          {quotes.map((quote, index) => (
+            <motion.div
+              key={quote.title}
+              className={cn(
+                "p-6 rounded-xl border bg-gradient-to-br",
+                quote.className
+              )}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 * index + 0.9, duration: 0.3 }}
+            >
+              <div className="flex flex-col md:flex-row md:items-start gap-4">
+                <Quote className={cn("w-8 h-8 flex-shrink-0", quote.iconColor)} />
+                <div className="space-y-2">
+                  <h3 className={cn("text-lg font-semibold", quote.titleColor)}>
+                    {quote.title}
+                  </h3>
+                  <p className="text-foreground/80 italic leading-relaxed">"{quote.content}"</p>
+                  <div className="text-sm text-muted-foreground">
+                    页码: {quote.page}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
     </motion.div>
   );
 };

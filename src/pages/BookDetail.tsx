@@ -2,7 +2,6 @@
 import { motion, useAnimation } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Navbar from '@/components/Navbar';
 import { getBookData, getRelatedBooks } from '@/utils/data';
 
 // Import our extracted components
@@ -61,7 +60,6 @@ const BookDetail = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center">
-        <Navbar />
         <div className="mt-24 text-center">
           <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" />
           <p className="mt-4 text-muted-foreground">加载中...</p>
@@ -73,7 +71,6 @@ const BookDetail = () => {
   if (!book) {
     return (
       <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center">
-        <Navbar />
         <div className="text-center mt-24">
           <h1 className="text-3xl font-bold mb-4">书籍未找到</h1>
           <p className="mb-6 text-muted-foreground">抱歉，我们找不到您请求的书籍</p>
@@ -90,8 +87,6 @@ const BookDetail = () => {
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary/20 rounded-full filter blur-[120px] opacity-20" />
       </div>
 
-      <Navbar />
-
       {/* Book Header */}
       <BookHeader book={book} />
 
@@ -104,8 +99,8 @@ const BookDetail = () => {
       )}
 
       {/* Additional Components */}
-      {book.hasConfidenceRules && <ConfidenceRules />}
-      {book.hasBookQuotes && <BookQuotes />}
+      {book.hasConfidenceRules && book.rules && <ConfidenceRules rules={book.rules} />}
+      {book.hasBookQuotes && book.quotes && <BookQuotes quotes={book.quotes} />}
 
       {/* Related Books */}
       {relatedBooks.length > 0 && (

@@ -6,12 +6,22 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { MoonIcon, SunIcon, MonitorIcon } from "lucide-react"
+} from "@/components/ui/dropdown-menu";
+import { 
+  MoonIcon, 
+  SunIcon, 
+  Menu as MenuIcon, 
+  MonitorIcon 
+} from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const Navbar = () => {
-  const { theme, setTheme } = useThemeContext()
+  const { theme, setTheme } = useThemeContext();
   const { pathname } = useLocation();
 
   const navItems = [
@@ -26,6 +36,34 @@ const Navbar = () => {
     <div className="w-full border-b">
       <div className="flex h-16 items-center px-4 md:px-6">
         <Link to="/" className="mr-4 font-bold text-xl">读书笔记</Link>
+        
+        {/* Mobile menu */}
+        <Sheet>
+          <SheetTrigger className="md:hidden mr-2">
+            <MenuIcon className="h-6 w-6" />
+            <span className="sr-only">打开菜单</span>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-[240px] sm:w-[280px]">
+            <nav className="flex flex-col gap-4 mt-8">
+              {navItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={cn(
+                    "px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                    pathname === item.path || (item.path !== '/' && pathname.startsWith(item.path))
+                      ? "bg-primary/10 text-primary"
+                      : "text-foreground/70 hover:text-foreground hover:bg-accent"
+                  )}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          </SheetContent>
+        </Sheet>
+        
+        {/* Desktop navigation */}
         <div className="hidden md:flex ml-auto space-x-2">
           {navItems.map((item) => (
             <Link
@@ -42,6 +80,7 @@ const Navbar = () => {
             </Link>
           ))}
         </div>
+        
         <div className="ml-auto md:ml-4 flex items-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -77,7 +116,7 @@ const Navbar = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Navbar;

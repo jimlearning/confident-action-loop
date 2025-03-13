@@ -1,66 +1,59 @@
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { BookOpen } from 'lucide-react';
-import BentoGrid from '../BentoGrid';
-import BentoItem from '../BentoItem';
-import { getBookData } from '@/utils/data';
-import { useParams } from 'react-router-dom';
+import { cn } from '@/lib/utils';
+import { CheckSquare } from 'lucide-react';
 
-const ConfidenceRules = () => {
-  const { bookId } = useParams<{ bookId: string }>();
-  const [rules, setRules] = useState<any[]>([]);
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!bookId) return;
-      
-      try {
-        const bookData = await getBookData(bookId);
-        if (bookData && bookData.rules) {
-          setRules(bookData.rules);
-        }
-      } catch (error) {
-        console.error("Error loading confidence rules:", error);
-      }
-    };
-    
-    fetchData();
-  }, [bookId]);
+interface Rule {
+  title: string;
+  content: string;
+  titleColor: string;
+  className: string;
+  iconColor: string;
+}
 
-  if (!rules || rules.length === 0) return null;
-  
+interface ConfidenceRulesProps {
+  rules: Rule[];
+}
+
+const ConfidenceRules: React.FC<ConfidenceRulesProps> = ({ rules }) => {
   return (
     <motion.div
-      className="w-full max-w-7xl px-4 md:px-8 mb-8"
+      className="w-full max-w-7xl px-4 md:px-8 mb-12"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.8, duration: 0.5 }}
+      transition={{ delay: 0.6, duration: 0.5 }}
     >
-      <motion.h2 
-        className="text-2xl md:text-3xl font-bold mb-6 text-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.9, duration: 0.5 }}
-      >
-        赢得自信的十条规则
-      </motion.h2>
-      
-      <BentoGrid className="px-4 md:px-8 mb-12">
-        {rules.map((rule, index) => (
-          <BentoItem 
-            key={index}
-            title={rule.title} 
-            titleColor={rule.titleColor || "text-yellow-400"}
-            className={`md:col-span-3 bg-gradient-to-br ${rule.className || "from-yellow-900/20 to-yellow-800/10 border-yellow-900/20"}`}
-            icon={<BookOpen className={`w-5 h-5 ${rule.iconColor || "text-yellow-400"}`} />}
-            chip={`规则 ${index + 1}`}
-            delay={8 + index}
-          >
-            <p>{rule.content}</p>
-          </BentoItem>
-        ))}
-      </BentoGrid>
+      <div className="space-y-8">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl md:text-3xl font-bold">自信的规则</h2>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {rules.map((rule, index) => (
+            <motion.div
+              key={rule.title}
+              className={cn(
+                "p-6 rounded-xl border bg-gradient-to-br",
+                rule.className
+              )}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 * index + 0.7, duration: 0.3 }}
+            >
+              <div className="flex items-start gap-3">
+                <CheckSquare className={cn("w-6 h-6 mt-1", rule.iconColor)} />
+                <div>
+                  <h3 className={cn("text-lg font-semibold", rule.titleColor)}>
+                    {rule.title}
+                  </h3>
+                  <p className="mt-2 text-foreground/80">{rule.content}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
     </motion.div>
   );
 };

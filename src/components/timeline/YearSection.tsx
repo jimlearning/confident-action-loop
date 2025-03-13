@@ -23,7 +23,7 @@ interface YearSectionProps {
 
 const YearSection = ({ year, books }: YearSectionProps) => {
   const { theme } = useThemeContext();
-  const isDark = theme === 'dark';
+  const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
   
   return (
     <div className="mb-16">
@@ -35,17 +35,17 @@ const YearSection = ({ year, books }: YearSectionProps) => {
       >
         <div className={cn(
           "text-4xl font-bold mr-4",
-          isDark ? "text-white/80" : "text-black/80"
+          isDark ? "text-foreground/80" : "text-foreground/80"
         )}>
           {year}
         </div>
         <div className={cn(
           "flex-grow h-0.5",
-          isDark ? "bg-white/10" : "bg-black/10"
+          isDark ? "bg-border" : "bg-border"
         )} />
       </motion.div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 relative">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
         {books.map((book, index) => (
           <TimelineItem key={book.id} book={book} index={index} />
         ))}
