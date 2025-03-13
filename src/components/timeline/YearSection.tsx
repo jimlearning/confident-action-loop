@@ -1,6 +1,6 @@
 
 import { motion } from 'framer-motion';
-import { useTheme } from '@/hooks/use-theme';
+import { useThemeContext } from '@/contexts/theme-provider';
 import { cn } from '@/lib/utils';
 import TimelineItem from './TimelineItem';
 
@@ -22,7 +22,8 @@ interface YearSectionProps {
 }
 
 const YearSection = ({ year, books }: YearSectionProps) => {
-  const { theme } = useTheme();
+  const { theme } = useThemeContext();
+  const isDark = theme === 'dark';
   
   return (
     <div className="mb-16">
@@ -33,18 +34,18 @@ const YearSection = ({ year, books }: YearSectionProps) => {
         transition={{ duration: 0.5 }}
       >
         <div className={cn(
-          "text-4xl font-bold mr-4 opacity-70",
-          theme === 'dark' ? "text-white" : "text-black"
+          "text-4xl font-bold mr-4",
+          isDark ? "text-white/80" : "text-black/80"
         )}>
           {year}
         </div>
         <div className={cn(
           "flex-grow h-0.5",
-          theme === 'dark' ? "bg-white/10" : "bg-black/10"
+          isDark ? "bg-white/10" : "bg-black/10"
         )} />
       </motion.div>
       
-      <div className="md:grid md:grid-cols-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 relative">
         {books.map((book, index) => (
           <TimelineItem key={book.id} book={book} index={index} />
         ))}

@@ -1,5 +1,5 @@
 
-import { useTheme } from "@/hooks/use-theme";
+import { useThemeContext } from "@/contexts/theme-provider";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -7,94 +7,70 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { MoonIcon, SunIcon } from "lucide-react"
+import { MoonIcon, SunIcon, MonitorIcon } from "lucide-react"
 import { Link, useLocation } from "react-router-dom";
-import {
-  NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
-  NavigationMenuLink,
-} from "@/components/ui/navigation-menu"
 
 const Navbar = () => {
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme } = useThemeContext()
   const { pathname } = useLocation();
 
-  const linkClass =
-    "group flex h-9 w-max items-center justify-center rounded-md bg-background px-3 text-sm font-medium ring-offset-background transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[active]:bg-accent data-[active]:text-accent-foreground";
+  const navItems = [
+    { path: '/', label: '首页' },
+    { path: '/timelines', label: '时间轴' },
+    { path: '/tags', label: '标签' },
+    { path: '/categories', label: '分类' },
+    { path: '/about', label: '关于' },
+  ];
 
   return (
     <div className="w-full border-b">
-      <div className="flex h-16 items-center px-4">
+      <div className="flex h-16 items-center px-4 md:px-6">
         <Link to="/" className="mr-4 font-bold text-xl">读书笔记</Link>
-        <div className="ml-auto flex items-center space-x-4">
-          <NavigationMenu className="relative hidden md:block">
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  asChild
-                  active={pathname === '/'}
-                >
-                  <Link to="/" className={linkClass}>首页</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  asChild
-                  active={pathname.startsWith('/timelines')}
-                >
-                  <Link to="/timelines" className={linkClass}>时间轴</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  asChild
-                  active={pathname.startsWith('/tags')}
-                >
-                  <Link to="/tags" className={linkClass}>标签</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  asChild
-                  active={pathname.startsWith('/categories')}
-                >
-                  <Link to="/categories" className={linkClass}>分类</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  asChild
-                  active={pathname === '/about'}
-                >
-                  <Link to="/about" className={linkClass}>关于</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+        <div className="hidden md:flex ml-auto space-x-2">
+          {navItems.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={cn(
+                "px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                pathname === item.path || (item.path !== '/' && pathname.startsWith(item.path))
+                  ? "bg-primary/10 text-primary"
+                  : "text-foreground/70 hover:text-foreground hover:bg-accent"
+              )}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+        <div className="ml-auto md:ml-4 flex items-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
-                className="group flex items-center rounded-md bg-background px-3 py-2 text-sm font-medium ring-offset-background transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
+                className="group p-2 rounded-md bg-background text-foreground hover:bg-accent"
               >
-                <SunIcon className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                <MoonIcon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                <span className="sr-only">Toggle theme</span>
+                <SunIcon className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <MoonIcon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <MonitorIcon className="absolute h-5 w-5 rotate-90 scale-0 transition-all" 
+                  style={{ 
+                    opacity: theme === 'system' ? 1 : 0,
+                    transform: theme === 'system' ? 'rotate(0deg) scale(1)' : 'rotate(90deg) scale(0)'
+                  }} 
+                />
+                <span className="sr-only">切换主题</span>
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => setTheme("light")}>
-                Light
+                <SunIcon className="mr-2 h-4 w-4" />
+                <span>亮色模式</span>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme("dark")}>
-                Dark
+                <MoonIcon className="mr-2 h-4 w-4" />
+                <span>暗色模式</span>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("dark")}>
-                System
+              <DropdownMenuItem onClick={() => setTheme("system")}>
+                <MonitorIcon className="mr-2 h-4 w-4" />
+                <span>系统设置</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

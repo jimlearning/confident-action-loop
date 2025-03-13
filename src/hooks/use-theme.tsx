@@ -13,10 +13,8 @@ export function useTheme() {
         return storedTheme;
       }
       
-      // 检查系统偏好
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        return 'dark';
-      }
+      // 默认使用系统偏好
+      return 'system';
     }
     
     // 默认使用深色模式
@@ -43,6 +41,23 @@ export function useTheme() {
     
     // 保存到本地存储
     localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  // 监听系统偏好变化
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    const handleChange = () => {
+      if (theme === 'system') {
+        const root = window.document.documentElement;
+        root.classList.remove('light', 'dark');
+        const newTheme = mediaQuery.matches ? 'dark' : 'light';
+        root.classList.add(newTheme);
+      }
+    };
+    
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
   }, [theme]);
 
   return { theme, setTheme };

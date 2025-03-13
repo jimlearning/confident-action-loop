@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, ReactNode } from 'react';
 import { useTheme } from '@/hooks/use-theme';
 
 type Theme = 'dark' | 'light' | 'system';
@@ -21,25 +21,11 @@ export function ThemeProvider({
   defaultTheme = 'dark',
   storageKey = 'theme',
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   defaultTheme?: Theme;
   storageKey?: string;
 }) {
   const { theme, setTheme } = useTheme();
-
-  useEffect(() => {
-    const root = window.document.documentElement;
-
-    root.classList.remove('light', 'dark');
-    
-    // 如果是系统主题，检查系统偏好
-    let actualTheme = theme;
-    if (theme === 'system') {
-      actualTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    
-    root.classList.add(actualTheme);
-  }, [theme]);
 
   const value = {
     theme,

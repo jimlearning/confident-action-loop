@@ -1,6 +1,6 @@
 
-import React, { Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@/contexts/theme-provider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from '@/components/ui/toaster';
@@ -24,19 +24,23 @@ function App() {
       <TooltipProvider>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider>
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/timelines" element={<Timelines />} />
-              <Route path="/books/:bookId" element={<BookDetail />} />
-              <Route path="/categories" element={<Categories />} />
-              <Route path="/categories/:categorySlug" element={<CategoryDetail />} />
-              <Route path="/categories/:categorySlug/:subcategorySlug" element={<CategoryDetail />} />
-              <Route path="/tags" element={<Tags />} />
-              <Route path="/tags/:tagName" element={<TagDetail />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <div className="min-h-screen flex flex-col bg-background text-foreground">
+              <Navbar />
+              <main className="flex-1">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/timelines" element={<Timelines />} />
+                  <Route path="/books/:bookId" element={<BookDetail />} />
+                  <Route path="/categories" element={<Categories />} />
+                  <Route path="/categories/:categorySlug" element={<CategoryDetail />} />
+                  <Route path="/categories/:categorySlug/:subcategorySlug" element={<CategoryDetail />} />
+                  <Route path="/tags" element={<Tags />} />
+                  <Route path="/tags/:tagName" element={<TagDetail />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </main>
+            </div>
             <Toaster />
           </ThemeProvider>
         </QueryClientProvider>
