@@ -1,6 +1,7 @@
+
 import { useState, useEffect } from 'react';
 
-type Theme = 'dark' | 'light';
+type Theme = 'dark' | 'light' | 'system';
 
 export function useTheme() {
   // 检查本地存储中是否有主题设置，如果没有则使用系统偏好
@@ -30,8 +31,15 @@ export function useTheme() {
     
     // 移除旧主题类
     root.classList.remove('light', 'dark');
+    
+    // 如果是系统主题，检查系统偏好
+    let actualTheme = theme;
+    if (theme === 'system') {
+      actualTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    
     // 添加新主题类
-    root.classList.add(theme);
+    root.classList.add(actualTheme);
     
     // 保存到本地存储
     localStorage.setItem('theme', theme);

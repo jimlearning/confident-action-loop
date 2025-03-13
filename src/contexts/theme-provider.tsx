@@ -1,7 +1,8 @@
+
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useTheme } from '@/hooks/use-theme';
 
-type Theme = 'dark' | 'light';
+type Theme = 'dark' | 'light' | 'system';
 
 type ThemeProviderState = {
   theme: Theme;
@@ -30,7 +31,14 @@ export function ThemeProvider({
     const root = window.document.documentElement;
 
     root.classList.remove('light', 'dark');
-    root.classList.add(theme);
+    
+    // 如果是系统主题，检查系统偏好
+    let actualTheme = theme;
+    if (theme === 'system') {
+      actualTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    
+    root.classList.add(actualTheme);
   }, [theme]);
 
   const value = {

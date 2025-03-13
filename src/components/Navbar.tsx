@@ -1,3 +1,4 @@
+
 import { useTheme } from "@/hooks/use-theme";
 import { cn } from "@/lib/utils";
 import {
@@ -6,9 +7,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
+import { MoonIcon, SunIcon } from "lucide-react"
 import { Link, useLocation } from "react-router-dom";
-import * as NavigationMenu from "@/components/ui/navigation-menu"
+import {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuLink,
+} from "@/components/ui/navigation-menu"
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme()
@@ -22,54 +28,54 @@ const Navbar = () => {
       <div className="flex h-16 items-center px-4">
         <Link to="/" className="mr-4 font-bold text-xl">读书笔记</Link>
         <div className="ml-auto flex items-center space-x-4">
-          <NavigationMenu.Root className="relative hidden md:block">
-            <NavigationMenu.List>
-              <NavigationMenu.Item>
-                <NavigationMenu.Link
+          <NavigationMenu className="relative hidden md:block">
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuLink
                   asChild
                   active={pathname === '/'}
                 >
                   <Link to="/" className={linkClass}>首页</Link>
-                </NavigationMenu.Link>
-              </NavigationMenu.Item>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
 
-              <NavigationMenu.Item>
-                <NavigationMenu.Link
+              <NavigationMenuItem>
+                <NavigationMenuLink
                   asChild
                   active={pathname.startsWith('/timelines')}
                 >
                   <Link to="/timelines" className={linkClass}>时间轴</Link>
-                </NavigationMenu.Link>
-              </NavigationMenu.Item>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
 
-              <NavigationMenu.Item>
-                <NavigationMenu.Link
+              <NavigationMenuItem>
+                <NavigationMenuLink
                   asChild
                   active={pathname.startsWith('/tags')}
                 >
                   <Link to="/tags" className={linkClass}>标签</Link>
-                </NavigationMenu.Link>
-              </NavigationMenu.Item>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
 
-              <NavigationMenu.Item>
-                <NavigationMenu.Link
+              <NavigationMenuItem>
+                <NavigationMenuLink
                   asChild
                   active={pathname.startsWith('/categories')}
                 >
                   <Link to="/categories" className={linkClass}>分类</Link>
-                </NavigationMenu.Link>
-              </NavigationMenu.Item>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
 
-              <NavigationMenu.Item>
-                <NavigationMenu.Link
+              <NavigationMenuItem>
+                <NavigationMenuLink
                   asChild
                   active={pathname === '/about'}
                 >
                   <Link to="/about" className={linkClass}>关于</Link>
-                </NavigationMenu.Link>
-              </NavigationMenu.Item>
-            </NavigationMenu.List>
-          </NavigationMenu.Root>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
@@ -87,7 +93,7 @@ const Navbar = () => {
               <DropdownMenuItem onClick={() => setTheme("dark")}>
                 Dark
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("system")}>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
                 System
               </DropdownMenuItem>
             </DropdownMenuContent>
