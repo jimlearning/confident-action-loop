@@ -9,8 +9,11 @@ import { BookContentSchema } from '@/schemas/bookSchema';
 // 检查书籍文件是否存在
 async function checkBookExists(bookId: string) {
   try {
-    const path = `../resources/books/${bookId}.json`;
-    await import(/* webpackMode: "eager" */ path);
+    const fullPath = new URL(
+      `../resources/books/${bookId}.json`,
+      import.meta.url
+    ).pathname;
+    await import(/* @vite-ignore */ fullPath);
     return true;
   } catch {
     return false;
@@ -47,8 +50,11 @@ export async function getBookData(bookId: string) {
       try {
         console.log(`[getBookData] 尝试加载书籍 ${bookId}，第 ${retryCount + 1} 次尝试`);
         bookModule = await import(
-          /* webpackChunkName: "book-[request]" */
-          `../resources/books/${bookId}.json`
+          /* @vite-ignore */
+          new URL(
+            `../resources/books/${bookId}.json`,
+            import.meta.url
+          ).pathname
         );
         console.log(`[getBookData] 书籍 ${bookId} 模块加载成功，检查数据...`);
         

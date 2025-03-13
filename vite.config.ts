@@ -19,4 +19,15 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  base: './',
+  build: {
+    assetsInclude: ['**/*.json'],
+    rollupOptions: {
+      output: {
+        assetFileNames: 'assets/[name]-[hash][extname]',
+        copyPublicDir: true
+      }
+    },
+    copyPublicDir: true
+  }
 }));
