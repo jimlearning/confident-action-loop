@@ -20,15 +20,17 @@ interface TimelineBook {
 interface TimelineItemProps {
   book: TimelineBook;
   index: number;
+  isFirst?: boolean;
+  isLast?: boolean;
 }
 
-const TimelineItem = ({ book, index, hasNext, hasPrev }: TimelineItemProps & { hasNext?: boolean, hasPrev?: boolean }) => {
+const TimelineItem = ({ book, index, isFirst, isLast }: TimelineItemProps) => {
   const { theme } = useThemeContext();
   const isDark = theme === 'dark';
 
   return (
     <motion.div
-      className="relative w-full flex items-start gap-4 pl-8"
+      className="relative w-full flex items-start gap-4 pl-8 py-6"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
@@ -36,8 +38,15 @@ const TimelineItem = ({ book, index, hasNext, hasPrev }: TimelineItemProps & { h
       {/* Timeline dot and connector */}
       <div className="absolute left-4 top-0 h-full">
         <div className="relative h-full flex flex-col items-center">
+          {/* 虚线 */}
+          <div 
+            className={cn(
+              "absolute w-[2px] border-l border-dashed border-muted-foreground/50",
+              !(isFirst && isLast) && (isFirst ? "top-[calc(50%+8px)] bottom-0" : isLast ? "top-0 bottom-[calc(50%-8px)]" : "top-0 bottom-0")
+            )}
+          />
           {/* 时间点 */}
-          <div className="absolute top-[calc(50%-16px)] h-8 w-8 flex items-center justify-center bg-primary rounded-full z-10">
+          <div className="absolute top-[calc(50%-16px)] h-8 w-8 flex items-center justify-center bg-primary rounded-full z-10 shadow-md ring-1 ring-border/5">
             <CalendarDays className="w-4 h-4 text-primary-foreground" />
           </div>
         </div>

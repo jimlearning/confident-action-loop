@@ -1,11 +1,5 @@
 
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
   Sheet,
   SheetContent,
   SheetTrigger,
@@ -79,104 +73,56 @@ const Navbar = () => {
                 ))}
               </nav>
               <div className="border-t py-4">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button
-                      className="w-full flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent"
-                    >
-                      <span>主题设置</span>
-                      <div className="relative w-5 h-5">
-                        <SunIcon
-                          className="absolute inset-0 h-5 w-5 transition-all"
-                          style={{
-                            transform: theme === 'light' ? 'scale(1) rotate(0)' : 'scale(0) rotate(-90deg)',
-                            opacity: theme === 'light' ? 1 : 0
-                          }}
-                        />
-                        <MoonIcon
-                          className="absolute inset-0 h-5 w-5 transition-all"
-                          style={{
-                            transform: theme === 'dark' ? 'scale(1) rotate(0)' : 'scale(0) rotate(90deg)',
-                            opacity: theme === 'dark' ? 1 : 0
-                          }}
-                        />
-                        <MonitorIcon
-                          className="absolute inset-0 h-5 w-5 transition-all"
-                          style={{
-                            transform: theme === 'system' ? 'scale(1) rotate(0)' : 'scale(0) rotate(90deg)',
-                            opacity: theme === 'system' ? 1 : 0
-                          }}
-                        />
-                      </div>
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-[200px]">
-                    <DropdownMenuItem onClick={() => setTheme("light")}>
-                      <SunIcon className="mr-2 h-4 w-4" />
-                      <span>亮色模式</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setTheme("dark")}>
-                      <MoonIcon className="mr-2 h-4 w-4" />
-                      <span>暗色模式</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setTheme("system")}>
-                      <MonitorIcon className="mr-2 h-4 w-4" />
-                      <span>系统设置</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <button
+                  className="w-full flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent"
+                  onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                >
+                  <span>主题设置</span>
+                  <div className="relative w-5 h-5">
+                    <SunIcon
+                      className="absolute inset-0 h-5 w-5 transition-all"
+                      style={{
+                        transform: theme === 'light' ? 'scale(1) rotate(0)' : 'scale(0) rotate(-90deg)',
+                        opacity: theme === 'light' ? 1 : 0
+                      }}
+                    />
+                    <MoonIcon
+                      className="absolute inset-0 h-5 w-5 transition-all"
+                      style={{
+                        transform: theme === 'dark' ? 'scale(1) rotate(0)' : 'scale(0) rotate(90deg)',
+                        opacity: theme === 'dark' ? 1 : 0
+                      }}
+                    />
+                  </div>
+                </button>
               </div>
             </SheetContent>
           </Sheet>
         </div>
 
         <div className="hidden md:flex items-center ml-4">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                className="relative w-10 h-10 rounded-md text-foreground hover:bg-accent flex items-center justify-center"
-              >
-                <div className="relative w-5 h-5">
-                  <SunIcon
-                    className="absolute inset-0 h-5 w-5 transition-all"
-                    style={{
-                      transform: `scale(${theme === 'light' ? 1 : 0})`,
-                      opacity: theme === 'light' ? 1 : 0
-                    }}
-                  />
-                  <MoonIcon
-                    className="absolute inset-0 h-5 w-5 transition-all"
-                    style={{
-                      transform: `scale(${theme === 'dark' ? 1 : 0})`,
-                      opacity: theme === 'dark' ? 1 : 0
-                    }}
-                  />
-                  <MonitorIcon
-                    className="absolute inset-0 h-5 w-5 transition-all"
-                    style={{
-                      transform: `scale(${theme === 'system' ? 1 : 0})`,
-                      opacity: theme === 'system' ? 1 : 0
-                    }}
-                  />
-                </div>
-                <span className="sr-only">切换主题</span>
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setTheme("light")}>
-                <SunIcon className="mr-2 h-4 w-4" />
-                <span>亮色模式</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("dark")}>
-                <MoonIcon className="mr-2 h-4 w-4" />
-                <span>暗色模式</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("system")}>
-                <MonitorIcon className="mr-2 h-4 w-4" />
-                <span>系统设置</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <button
+            className="relative w-10 h-10 rounded-md text-foreground hover:bg-accent flex items-center justify-center"
+            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+          >
+            <div className="relative w-5 h-5">
+              <SunIcon
+                className="absolute inset-0 h-5 w-5 transition-all"
+                style={{
+                  transform: `scale(${theme === 'light' ? 1 : 0})`,
+                  opacity: theme === 'light' ? 1 : 0
+                }}
+              />
+              <MoonIcon
+                className="absolute inset-0 h-5 w-5 transition-all"
+                style={{
+                  transform: `scale(${theme === 'dark' ? 1 : 0})`,
+                  opacity: theme === 'dark' ? 1 : 0
+                }}
+              />
+            </div>
+            <span className="sr-only">切换主题</span>
+          </button>
         </div>
       </div>
     </div>

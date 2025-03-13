@@ -3,6 +3,7 @@ import BentoGrid from '@/components/BentoGrid';
 import BentoItem from '@/components/BentoItem';
 import { cn } from '@/lib/utils';
 import { getAllTags } from '@/utils/data';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, BookOpen, Tag as TagIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -21,10 +22,38 @@ interface TagData {
 const Tags = () => {
   const [tags, setTags] = useState<TagData[]>([]);
 
+  const [isLoading, setIsLoading] = useState(true);
+  
   useEffect(() => {
-    const data = getAllTags();
-    setTags(data);
+    const loadTags = async () => {
+      try {
+        // 模拟异步加载
+        const data = await Promise.resolve(getAllTags());
+        setTags(data);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    loadTags();
   }, []);
+
+  // 骨架屏占位
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-pulse space-y-4">
+          <div className="h-12 bg-muted rounded w-64"></div>
+          <div className="h-4 bg-muted rounded w-48"></div>
+          <div className="grid grid-cols-2 gap-4">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="h-20 bg-muted rounded-xl"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col items-center overflow-x-hidden">
@@ -70,30 +99,11 @@ const Tags = () => {
           <h2 className="text-xl font-semibold mb-6">热门标签</h2>
           <div className="flex flex-wrap gap-4">
             {tags.map((tag, index) => (
-              <Link 
+              <TagItem
                 key={tag.name}
-                to={`/tags/${encodeURIComponent(tag.name)}`}
-              >
-                <motion.div
-                  className={cn(
-                    "flex items-center gap-2 px-4 py-3 rounded-xl",
-                    "transition-all hover:shadow-lg border",
-                    "bg-gradient-to-br cursor-pointer",
-                    tag.color
-                  )}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 * index + 0.7, duration: 0.3 }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <TagIcon className={cn("w-5 h-5", tag.iconColor)} />
-                  <div>
-                    <span className={cn("font-medium", tag.titleColor)}>{tag.name}</span>
-                    <span className="ml-2 text-sm text-foreground/50">{tag.count} 本书</span>
-                  </div>
-                </motion.div>
-              </Link>
+                tag={tag}
+                index={index}
+              />
             ))}
           </div>
         </div>
@@ -158,5 +168,28 @@ const Tags = () => {
     </div>
   );
 };
+
+const TagItem = React.memo(({ tag, index }: { tag: TagData; index: number }) => (
+  <Link to={`/tags/${encodeURIComponent(tag.name)}`}>
+    <motion.div
+      className={cn(
+        "flex items-center gap-2 px-4 py-3 rounded-xl",
+        "transition-all hover:shadow-lg border",
+        "bg-gradient-to-br cursor-pointer",
+        tag.color
+      )}
+      whileHover={{ scale: 1.02, type: "spring" }}
+      whileTap={{ scale: 0.98, type: "spring" }}
+    >
+      <TagIcon className={cn("w-5 h-5", tag.iconColor)} />
+      <div>
+        <span className={cn("font-medium", tag.titleColor)}>{tag.name}</span>
+        <span className="ml-2 text-sm text-foreground/50">{tag.count} 本书</span>
+      </div>
+    </motion.div>
+  </Link>
+));
+
+TagItem.displayName = "TagItem";
 
 export default Tags;

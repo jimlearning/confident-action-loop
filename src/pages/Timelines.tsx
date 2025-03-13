@@ -68,9 +68,11 @@ const Timelines = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.5 }}
       >
-        {timelineData.map((yearData) => (
-          <YearSection key={yearData.year} {...yearData} />
-        ))}
+        <div className="space-y-16">
+          {timelineData.map((yearData) => (
+            <YearSection key={yearData.year} {...yearData} />
+          ))}
+        </div>
       </motion.div>
 
       {/* Footer */}

@@ -26,9 +26,9 @@ const YearSection = ({ year, books }: YearSectionProps) => {
   const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   return (
-    <div className="mb-16">
+    <div>
       <motion.div
-        className="relative mb-8 flex items-center justify-center"
+        className="relative mb-4 flex items-center justify-center"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -41,18 +41,15 @@ const YearSection = ({ year, books }: YearSectionProps) => {
         </div>
       </motion.div>
 
-      <div className="relative flex flex-col items-center gap-6">
+      <div className="relative flex flex-col items-center">
         {books.map((book, index) => (
-          <div key={book.id} className="relative w-full">
-            {/* 中轴线，只在非第一个项目的上方显示 */}
-            {index > 0 && (
-              <div className={cn(
-                "absolute left-1/2 top-[-24px] h-[24px] w-[2px] -translate-x-1/2 border-l border-dashed -z-1",
-                isDark ? "border-muted-foreground/75" : "border-muted-foreground/75"
-              )} />
-            )}
-            <TimelineItem book={book} index={index} />
-          </div>  
+          <TimelineItem 
+            key={book.id}
+            book={book} 
+            index={index}
+            isFirst={index === 0}
+            isLast={index === books.length - 1}
+          />
         ))}
       </div>
     </div>
