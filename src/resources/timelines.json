@@ -1,0 +1,124 @@
+
+{
+  "years": [
+    {
+      "year": "2023",
+      "books": [
+        {
+          "id": "confidence-trap",
+          "title": "自信的陷阱",
+          "author": "罗里·瓦登",
+          "date": "2023-12-15",
+          "description": "探讨如何通过行动建立真正的自信，而不是等待自信才行动",
+          "category": "心理学",
+          "coverColor": "from-purple-900/20 to-purple-800/10 border-purple-900/20",
+          "titleColor": "text-purple-400",
+          "iconColor": "text-purple-400"
+        },
+        {
+          "id": "atomic-habits",
+          "title": "原子习惯",
+          "author": "詹姆斯·克利尔",
+          "date": "2023-10-20",
+          "description": "如何通过微小的改变实现巨大的成果，建立积极的习惯系统",
+          "category": "个人成长",
+          "coverColor": "from-blue-900/20 to-blue-800/10 border-blue-900/20",
+          "titleColor": "text-blue-400",
+          "iconColor": "text-blue-400"
+        }
+      ]
+    },
+    {
+      "year": "2022",
+      "books": [
+        {
+          "id": "thinking-fast-slow",
+          "title": "思考，快与慢",
+          "author": "丹尼尔·卡尼曼",
+          "date": "2022-11-05",
+          "description": "探索人类思维的两种模式，以及它们如何影响我们的决策和判断",
+          "category": "心理学",
+          "coverColor": "from-purple-900/30 to-purple-800/20 border-purple-900/30",
+          "titleColor": "text-purple-400",
+          "iconColor": "text-purple-400"
+        },
+        {
+          "id": "deep-work",
+          "title": "深度工作",
+          "author": "卡尔·纽波特",
+          "date": "2022-08-12",
+          "description": "在注意力分散的世界中，如何培养专注力并创造有价值的工作",
+          "category": "效率",
+          "coverColor": "from-orange-900/20 to-orange-800/10 border-orange-900/20",
+          "titleColor": "text-orange-400",
+          "iconColor": "text-orange-400"
+        },
+        {
+          "id": "mindset",
+          "title": "终身成长",
+          "author": "卡罗尔·德韦克",
+          "date": "2022-05-18",
+          "description": "探讨固定思维模式与成长思维模式的区别，以及如何培养成长型思维",
+          "category": "心理学",
+          "coverColor": "from-teal-900/20 to-teal-800/10 border-teal-900/20",
+          "titleColor": "text-teal-400",
+          "iconColor": "text-teal-400"
+        }
+      ]
+    },
+    {
+      "year": "2021",
+      "books": [
+        {
+          "id": "power-of-now",
+          "title": "当下的力量",
+          "author": "埃克哈特·托利",
+          "date": "2021-12-30",
+          "description": "如何通过活在当下，摆脱思想的束缚，获得内心的平静与力量",
+          "category": "心灵成长",
+          "coverColor": "from-indigo-900/20 to-indigo-800/10 border-indigo-900/20",
+          "titleColor": "text-indigo-400",
+          "iconColor": "text-indigo-400"
+        },
+        {
+          "id": "emotional-intelligence",
+          "title": "情绪智力",
+          "author": "丹尼尔·戈尔曼",
+          "date": "2021-09-05",
+          "description": "了解情绪如何影响思维和行为，以及如何有效管理情绪",
+          "category": "心理学",
+          "coverColor": "from-pink-900/20 to-pink-800/10 border-pink-900/20",
+          "titleColor": "text-pink-400",
+          "iconColor": "text-pink-400"
+        },
+        {
+          "id": "mans-search-for-meaning",
+          "title": "活出生命的意义",
+          "author": "维克多·弗兰克尔",
+          "date": "2021-06-15",
+          "description": "探索如何在苦难中找到生命的意义和目的",
+          "category": "哲学",
+          "coverColor": "from-yellow-900/20 to-yellow-800/10 border-yellow-900/20",
+          "titleColor": "text-yellow-400",
+          "iconColor": "text-yellow-400"
+        }
+      ]
+    },
+    {
+      "year": "2020",
+      "books": [
+        {
+          "id": "getting-things-done",
+          "title": "搞定",
+          "author": "大卫·艾伦",
+          "date": "2020-12-10",
+          "description": "一种实用的时间管理和个人生产力提升系统",
+          "category": "效率",
+          "coverColor": "from-cyan-900/20 to-cyan-800/10 border-cyan-900/20",
+          "titleColor": "text-cyan-400",
+          "iconColor": "text-cyan-400"
+        }
+      ]
+    }
+  ]
+}

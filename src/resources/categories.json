@@ -1,0 +1,134 @@
+
+{
+  "categories": [
+    {
+      "name": "个人成长",
+      "slug": "growth",
+      "count": 15,
+      "color": "from-blue-900/20 to-blue-800/10 border-blue-900/20",
+      "titleColor": "text-blue-400",
+      "iconColor": "text-blue-400",
+      "description": "关注个人发展、自我提升和生活质量改善的书籍，包括习惯养成、目标设定和自我管理等主题。",
+      "subcategories": [
+        {
+          "name": "习惯养成",
+          "slug": "habits",
+          "count": 5,
+          "color": "from-blue-900/20 to-blue-800/10 border-blue-900/20",
+          "titleColor": "text-blue-400",
+          "iconColor": "text-blue-400",
+          "description": "专注于如何建立和保持积极习惯的书籍，从微小习惯开始，到系统性变革。",
+          "books": [
+            { "id": "atomic-habits", "title": "原子习惯" },
+            { "id": "power-of-habit", "title": "习惯的力量" },
+            { "id": "tiny-habits", "title": "微习惯" },
+            { "id": "one-small-step", "title": "小步前进" }
+          ]
+        },
+        {
+          "name": "思维模式",
+          "slug": "mindset",
+          "count": 6,
+          "color": "from-blue-900/20 to-blue-800/10 border-blue-900/20",
+          "titleColor": "text-blue-400",
+          "iconColor": "text-blue-400",
+          "description": "讨论思维方式如何影响成功、创造力和幸福感的书籍。",
+          "books": [
+            { "id": "mindset", "title": "终身成长" },
+            { "id": "black-box-thinking", "title": "黑箱思维" },
+            { "id": "thinking-in-systems", "title": "系统思考" }
+          ]
+        },
+        {
+          "name": "自信",
+          "slug": "confidence",
+          "count": 4,
+          "color": "from-blue-900/20 to-blue-800/10 border-blue-900/20",
+          "titleColor": "text-blue-400",
+          "iconColor": "text-blue-400",
+          "description": "关于培养自信、战胜自我怀疑的书籍。",
+          "books": [
+            { "id": "confidence-trap", "title": "自信的陷阱" },
+            { "id": "six-pillars-of-self-esteem", "title": "自尊的六大支柱" },
+            { "id": "daring-greatly", "title": "敢于冒险" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "心理学",
+      "slug": "psychology",
+      "count": 12,
+      "color": "from-purple-900/20 to-purple-800/10 border-purple-900/20",
+      "titleColor": "text-purple-400",
+      "iconColor": "text-purple-400",
+      "description": "探索人类思维、行为和情感的科学，包括认知心理学、行为心理学和积极心理学等领域的书籍。",
+      "subcategories": [
+        {
+          "name": "认知心理学",
+          "slug": "cognitive",
+          "count": 3,
+          "color": "from-purple-900/20 to-purple-800/10 border-purple-900/20",
+          "titleColor": "text-purple-400",
+          "iconColor": "text-purple-400",
+          "description": "关注人类思维过程，如记忆、注意力和决策的书籍。",
+          "books": [
+            { "id": "thinking-fast-slow", "title": "思考，快与慢" },
+            { "id": "predictably-irrational", "title": "怪诞行为学" }
+          ]
+        },
+        {
+          "name": "情绪管理",
+          "slug": "emotional",
+          "count": 4,
+          "color": "from-purple-900/20 to-purple-800/10 border-purple-900/20",
+          "titleColor": "text-purple-400",
+          "iconColor": "text-purple-400",
+          "description": "探讨如何理解和管理情绪的书籍。",
+          "books": [
+            { "id": "emotional-intelligence", "title": "情绪智力" },
+            { "id": "permission-to-feel", "title": "允许自己感受" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "效率",
+      "slug": "productivity",
+      "count": 8,
+      "color": "from-green-900/20 to-green-800/10 border-green-900/20",
+      "titleColor": "text-green-400",
+      "iconColor": "text-green-400",
+      "description": "专注于提高工作和生活效率的方法论，包括时间管理、注意力管理和工作流程优化等内容。",
+      "subcategories": [
+        {
+          "name": "时间管理",
+          "slug": "time-management",
+          "count": 3,
+          "color": "from-green-900/20 to-green-800/10 border-green-900/20",
+          "titleColor": "text-green-400",
+          "iconColor": "text-green-400",
+          "description": "关于如何更有效地利用时间的书籍。",
+          "books": [
+            { "id": "getting-things-done", "title": "搞定" },
+            { "id": "eat-that-frog", "title": "先吃掉那只青蛙" }
+          ]
+        },
+        {
+          "name": "专注力",
+          "slug": "focus",
+          "count": 5,
+          "color": "from-green-900/20 to-green-800/10 border-green-900/20",
+          "titleColor": "text-green-400",
+          "iconColor": "text-green-400",
+          "description": "讨论如何在分心的世界中提高专注力的书籍。",
+          "books": [
+            { "id": "deep-work", "title": "深度工作" },
+            { "id": "hyperfocus", "title": "超专注力" },
+            { "id": "indistractable", "title": "不受干扰" }
+          ]
+        }
+      ]
+    }
+  ]
+}

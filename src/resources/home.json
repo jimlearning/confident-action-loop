@@ -1,0 +1,38 @@
+
+{
+  "header": {
+    "title": "读书笔记",
+    "subtitle": "Cheat Sheets",
+    "description": "将复杂的书籍精华浓缩为直观的知识图谱"
+  },
+  "popularTags": [
+    {
+      "name": "自信",
+      "count": 5,
+      "color": "from-purple-900/20 to-purple-800/10 border-purple-900/20",
+      "titleColor": "text-purple-400",
+      "iconColor": "text-purple-400"
+    },
+    {
+      "name": "习惯",
+      "count": 7,
+      "color": "from-blue-900/20 to-blue-800/10 border-blue-900/20",
+      "titleColor": "text-blue-400",
+      "iconColor": "text-blue-400"
+    },
+    {
+      "name": "思维方式",
+      "count": 9,
+      "color": "from-green-900/20 to-green-800/10 border-green-900/20",
+      "titleColor": "text-green-400",
+      "iconColor": "text-green-400"
+    },
+    {
+      "name": "专注力",
+      "count": 6,
+      "color": "from-orange-900/20 to-orange-800/10 border-orange-900/20",
+      "titleColor": "text-orange-400",
+      "iconColor": "text-orange-400"
+    }
+  ]
+}

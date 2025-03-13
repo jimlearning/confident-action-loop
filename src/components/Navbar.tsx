@@ -1,10 +1,14 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Moon, Sun, Menu, X, BookOpen, Home, User, Tag, BookMarked, Library } from 'lucide-react';
+import { 
+  Moon, Sun, Menu, X, BookOpen, Home, User, 
+  Tag, BookMarked, Clock, Archive 
+} from 'lucide-react';
 import { useTheme } from '@/hooks/use-theme';
 
 interface NavItemProps {
@@ -69,8 +73,8 @@ const Navbar = () => {
 
   const navItems = [
     { href: '/', label: '首页', icon: <Home className="w-5 h-5" /> },
-    { href: '/books', label: '书籍', icon: <Library className="w-5 h-5" /> },
     { href: '/categories', label: '分类', icon: <BookMarked className="w-5 h-5" /> },
+    { href: '/archives', label: '归档', icon: <Archive className="w-5 h-5" /> },
     { href: '/tags', label: '标签', icon: <Tag className="w-5 h-5" /> },
     { href: '/about', label: '关于我', icon: <User className="w-5 h-5" /> },
   ];
