@@ -19,15 +19,23 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: './',
+  base: '/',
   build: {
     assetsInclude: ['**/*.json'],
     rollupOptions: {
       output: {
-        assetFileNames: 'assets/[name]-[hash][extname]',
-        copyPublicDir: true
+        assetFileNames: (assetInfo) => {
+          // 对于books目录下的JSON文件保持原始路径结构
+          if (assetInfo.name && assetInfo.name.includes('/books/')) {
+            return assetInfo.name.replace('src/resources', '');
+          }
+          // 其他资源使用哈希命名
+          return 'assets/[name]-[hash][extname]';
+        }
       }
     },
-    copyPublicDir: true
+    // 明确配置public目录结构
+    assetsDir: 'assets',
+    publicDir: 'public'
   }
 }));

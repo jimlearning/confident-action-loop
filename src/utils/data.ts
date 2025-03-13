@@ -1,21 +1,29 @@
 
 import categoriesData from '@/resources/categories.json';
-import homeData from '@/resources/home.json';
-import tagsData from '@/resources/tags.json';
-import timelinesData from '@/resources/timelines.json';
+import homeData from '../resources/home.json';
+import tagsData from '../resources/tags.json';
+import timelinesData from '../resources/timelines.json';
 
 import { BookContentSchema } from '@/schemas/bookSchema';
 
 // 检查书籍文件是否存在
 async function checkBookExists(bookId: string) {
   try {
-    const fullPath = new URL(
-      `../resources/books/${bookId}.json`,
-      import.meta.url
-    ).pathname;
-    await import(/* @vite-ignore */ fullPath);
-    return true;
-  } catch {
+    // 在开发环境和生产环境中都尝试获取资源
+    // 首先尝试使用fetch方法获取
+    const isDev = import.meta.env.DEV;
+    const basePath = isDev ? '/src/resources/books' : '/books';
+    const path = `${basePath}/${bookId}.json`;
+    
+    console.log(`[checkBookExists] 尝试使用fetch检查书籍 ${bookId}，路径: ${path}`);
+    const response = await fetch(path);
+    return response.ok;
+  } catch (error) {
+    console.error('[checkBookExists] 书籍检查失败:', {
+      bookId,
+      error: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined
+    });
     return false;
   }
 }
@@ -43,19 +51,20 @@ export async function getBookData(bookId: string) {
     // Dynamic import of book data with retry
     let bookModule = null;
     let retryCount = 0;
-    const maxRetries = 3;
+    const maxRetries = 1;
     const retryDelays = [1000, 2000, 3000]; // 递增的重试间隔
 
     while (retryCount < maxRetries) {
       try {
         console.log(`[getBookData] 尝试加载书籍 ${bookId}，第 ${retryCount + 1} 次尝试`);
-        bookModule = await import(
-          /* @vite-ignore */
-          new URL(
-            `../resources/books/${bookId}.json`,
-            import.meta.url
-          ).pathname
-        );
+        // 根据环境动态选择路径
+        const isDev = import.meta.env.DEV;
+        const basePath = isDev ? '/src/resources/books' : '/books';
+        const path = `${basePath}/${bookId}.json`;
+        console.log('Loading book from:', path);
+        const response = await fetch(path);
+        if (!response.ok) throw new Error(`Failed to load ${path}`);
+        bookModule = { default: await response.json() };
         console.log(`[getBookData] 书籍 ${bookId} 模块加载成功，检查数据...`);
         
         if (bookModule?.default) {
