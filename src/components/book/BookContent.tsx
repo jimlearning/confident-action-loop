@@ -3,7 +3,7 @@ import BentoGrid from '@/components/BentoGrid';
 import BentoItem from '@/components/BentoItem';
 import { motion } from 'framer-motion';
 import { ArrowRight, BookOpen, BrainCircuit, CheckCircle2, Heart, Lightbulb, XCircle } from 'lucide-react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 // 动态获取图标
 const getIconComponent = (iconName: string) => {
@@ -23,27 +23,115 @@ interface BookContentProps {
 }
 
 const BookContent = ({ book, controls }: BookContentProps) => {
-  if (!book || !book.content) {
-    console.error('Book content is missing:', book);
-    return null;
-  }
+  const [isReady, setIsReady] = useState(false);
+  const [validationError, setValidationError] = useState<string | null>(null);
 
-  // Validate required content structure
-  if (!book.content.misconception || !book.content.reality || !book.content.sections) {
-    console.error('Invalid book content structure:', book.content);
+  useEffect(() => {
+    const bookId = book?.id || 'unknown';
+    console.log(`BookContent组件: 开始验证书籍 ${bookId} 数据`);
+    
+    // 确保控件可用
+    if (!controls) {
+      console.error(`BookContent组件: controls对象缺失`);
+      setValidationError('动画控制器缺失');
+      setIsReady(false);
+      return;
+    }
+    
+    // 确保book对象存在
+    if (!book) {
+      console.error(`BookContent组件: book对象缺失`);
+      setValidationError('书籍数据缺失');
+      setIsReady(false);
+      return;
+    }
+    
+    // 确保book.content存在
+    if (!book.content) {
+      console.error(`BookContent组件: 书籍 ${bookId} 的content字段缺失`, book);
+      setValidationError('书籍内容数据缺失');
+      setIsReady(false);
+      return;
+    }
+    
+    // 验证content的主要结构
+    const { misconception, reality, sections } = book.content;
+    
+    console.log(`BookContent组件: 验证书籍 ${bookId} 的content字段`, {
+      hasMisconception: !!misconception,
+      hasReality: !!reality,
+      hasSections: !!sections,
+      sectionsIsArray: Array.isArray(sections)
+    });
+    
+    if (!misconception || !reality || !sections || !Array.isArray(sections)) {
+      console.error(`BookContent组件: 书籍 ${bookId} 的content结构无效`, { 
+        misconception, reality, sections 
+      });
+      setValidationError('书籍内容结构无效');
+      setIsReady(false);
+      return;
+    }
+    
+    // 验证misconception和reality的结构
+    console.log(`BookContent组件: 验证书籍 ${bookId} 的misconception和reality字段`, {
+      misconceptionComplete: !!(misconception.title && misconception.content),
+      realityComplete: !!(reality.title && reality.content)
+    });
+    
+    if (!misconception.title || !misconception.content || !reality.title || !reality.content) {
+      console.error(`BookContent组件: 书籍 ${bookId} 的misconception或reality字段缺失`, { 
+        misconception, reality 
+      });
+      setValidationError('书籍内容字段不完整');
+      setIsReady(false);
+      return;
+    }
+    
+    // 验证sections数组
+    console.log(`BookContent组件: 验证书籍 ${bookId} 的sections数组`, {
+      sectionsLength: sections.length
+    });
+    
+    if (sections.length === 0) {
+      console.error(`BookContent组件: 书籍 ${bookId} 的sections数组为空`);
+      setValidationError('书籍章节内容为空');
+      setIsReady(false);
+      return;
+    }
+    
+    // 所有验证通过
+    console.log(`BookContent组件: 书籍 ${bookId} 数据验证通过`);
+    setValidationError(null);
+    setIsReady(true);
+  }, [book, controls]);
+
+  if (!isReady) {
     return (
       <div className="w-full max-w-7xl px-4 md:px-8 mb-12 text-center text-muted-foreground">
-        <p>内容结构不完整</p>
+        <div className="p-6 border border-destructive/30 rounded-xl bg-destructive/5">
+          <p className="text-lg font-medium">正在准备书籍内容...</p>
+          {validationError && (
+            <p className="mt-2 text-sm text-destructive">错误: {validationError}</p>
+          )}
+          <p className="mt-4 text-sm">如果问题持续存在，请尝试刷新页面或返回书籍列表重新选择</p>
+          <div className="mt-4 animate-pulse">
+            <div className="h-2 bg-muted-foreground/20 rounded w-3/4 mx-auto" />
+          </div>
+        </div>
       </div>
     );
   }
 
+  // 数据已验证通过，安全地解构
+  const { misconception, reality, sections } = book.content;
+
   return (
     <motion.div
       className="w-full max-w-7xl px-4 md:px-8 mb-12"
-      initial={{ opacity: 0, y: 20 }}
+      initial={false}
       animate={controls}
-      transition={{ delay: 0.4, duration: 0.5 }}
+      transition={{ duration: 0.5 }}
     >
       <BentoGrid>
         {/* Misconception vs Reality */}
@@ -72,12 +160,12 @@ const BookContent = ({ book, controls }: BookContentProps) => {
           chip="✅ 有效方法"
           delay={2}
         >
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2 flex-wrap">
             {book.content.reality.content.split(' → ').map((step: string, index: number, array: string[]) => (
-              <React.Fragment key={step}>
-                <span className="px-2 py-1 bg-muted rounded-lg">{step}</span>
-                {index < array.length - 1 && <ArrowRight className="w-4 h-4" />}
-              </React.Fragment>
+              <div key={step} className="flex items-center gap-2">
+                <span className="px-2 py-1 bg-muted rounded-lg whitespace-nowrap">{step}</span>
+                {index < array.length - 1 && <ArrowRight className="w-4 h-4 flex-shrink-0" />}
+              </div>
             ))}
           </div>
         </BentoItem>
@@ -131,12 +219,12 @@ const BookContent = ({ book, controls }: BookContentProps) => {
                         {item.examples.map((example: { title: string; steps: string[] }) => (
                           <div key={example.title} className="bg-muted/5 p-3 rounded-lg border border-border">
                             <p className={`font-medium ${section.titleColor} mb-2`}>{example.title}</p>
-                            <div className="flex items-center space-x-2">
+                            <div className="flex items-center gap-2 flex-wrap">
                               {example.steps.map((step: string, stepIdx: number, arr: string[]) => (
-                                <React.Fragment key={step}>
-                                  <span className="px-2 py-1 bg-muted rounded-lg text-muted-foreground">{step}</span>
-                                  {stepIdx < arr.length - 1 && <ArrowRight className="w-4 h-4 text-muted-foreground" />}
-                                </React.Fragment>
+                                <div key={step} className="flex items-center gap-2">
+                                  <span className="px-2 py-1 bg-muted rounded-lg text-muted-foreground whitespace-nowrap">{step}</span>
+                                  {stepIdx < arr.length - 1 && <ArrowRight className="w-4 h-4 text-muted-foreground flex-shrink-0" />}
+                                </div>
                               ))}
                             </div>
                           </div>

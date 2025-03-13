@@ -25,8 +25,13 @@ const Home = () => {
   const [homeData, setHomeData] = useState<HomeData | null>(null);
   
   useEffect(() => {
-    const data = getHomeData();
-    setHomeData(data);
+    try {
+      const data = getHomeData();
+      setHomeData(data);
+    } catch (error) {
+      console.error('Error loading home data:', error);
+      // Set fallback data or show error state
+    }
   }, []);
 
   if (!homeData) {

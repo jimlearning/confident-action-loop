@@ -7,10 +7,11 @@ import { Quote } from 'lucide-react';
 interface BookQuote {
   title: string;
   content: string;
-  page: string;
+  page?: string;
   titleColor: string;
   className: string;
   iconColor: string;
+  source?: string;
 }
 
 interface BookQuotesProps {
@@ -49,9 +50,16 @@ const BookQuotes: React.FC<BookQuotesProps> = ({ quotes }) => {
                     {quote.title}
                   </h3>
                   <p className="text-foreground/80 italic leading-relaxed">"{quote.content}"</p>
-                  <div className="text-sm text-muted-foreground">
-                    页码: {quote.page}
-                  </div>
+                  {quote.page && (
+                    <div className="text-sm text-muted-foreground">
+                      页码: {quote.page}
+                    </div>
+                  )}
+                  {quote.source && (
+                    <div className="text-sm text-muted-foreground">
+                      来源: {quote.source}
+                    </div>
+                  )}
                 </div>
               </div>
             </motion.div>

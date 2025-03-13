@@ -42,24 +42,61 @@ const TagDetail = () => {
     const fetchData = async () => {
       if (!tagName) return;
 
-      const decodedTagName = decodeURIComponent(tagName);
+      try {
+        setLoading(true);
+        const decodedTagName = decodeURIComponent(tagName);
 
-      const tagData = getTagByName(decodedTagName);
-      setTag(tagData);
+        const tagData = getTagByName(decodedTagName);
+        if (!tagData) {
+          console.error('Tag not found:', decodedTagName);
+          setLoading(false);
+          setTag(null);
+          return;
+        }
 
-      if (tagData?.books) {
-        const bookPromises = tagData.books.map((book: { id: string }) =>
-          getBookData(book.id)
-        );
+        setTag(tagData);
 
-        const bookData = await Promise.all(bookPromises);
-        setBooks(bookData.filter(Boolean));
+        if (tagData?.books && Array.isArray(tagData.books)) {
+          try {
+            setLoading(true);
+            const bookPromises = tagData.books.map((book: { id: string }) =>
+              getBookData(book.id)
+            );
+
+            const bookData = await Promise.all(bookPromises);
+            const validBooks = bookData.filter(Boolean);
+            if (validBooks.length === 0) {
+              console.error('No valid books found for tag:', decodedTagName);
+            }
+            setBooks(validBooks);
+            setLoading(false);
+          } catch (error) {
+            console.error('Error loading books for tag:', error);
+            setBooks([]);
+            setLoading(false);
+          }
+        } else {
+          console.error('Invalid books data in tag:', tagData);
+          setBooks([]);
+          setLoading(false);
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error('Error in tag detail:', error);
+        setLoading(false);
+        setTag(null);
+        setBooks([]);
       }
-
-      setLoading(false);
     };
 
     fetchData();
+
+    return () => {
+      setTag(null);
+      setBooks([]);
+      setLoading(true);
+    };
   }, [tagName]);
 
   if (loading) {

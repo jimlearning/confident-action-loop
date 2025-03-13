@@ -88,7 +88,6 @@ const CategoryDetail = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center">
-        <Navbar />
         <div className="mt-24 text-center">
           <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" />
           <p className="mt-4 text-muted-foreground">加载中...</p>
@@ -100,7 +99,6 @@ const CategoryDetail = () => {
   if (!category) {
     return (
       <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center">
-        <Navbar />
         <div className="text-center mt-24">
           <h1 className="text-3xl font-bold mb-4">分类未找到</h1>
           <p className="mb-6 text-muted-foreground">抱歉，我们找不到您请求的分类</p>
@@ -126,8 +124,6 @@ const CategoryDetail = () => {
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-bento-purple/20 rounded-full filter blur-[120px] opacity-20" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-bento-blue/20 rounded-full filter blur-[120px] opacity-20" />
       </div>
-
-      <Navbar />
 
       {/* Category Header */}
       <motion.div
