@@ -176,46 +176,55 @@ const TagDetail = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.5 }}
       >
-        <BentoGrid>
-          {books.map((book, index) => (
-            <BentoItem
-              key={book.id}
-              title={book.title}
-              titleColor={book.titleColor}
-              className={`md:col-span-3 bg-gradient-to-br ${book.coverColor}`}
-              icon={<BookOpen className={`w-5 h-5 ${book.iconColor}`} />}
-              delay={index + 1}
-            >
-              <div className="space-y-4 mt-2">
-                <p>{book.description}</p>
+        <h2 className="text-2xl font-bold mb-6">书籍列表</h2>
+        {books.length > 0 ? (
+          <BentoGrid>
+            {books.map((book, index) => (
+              <BentoItem
+                key={book.id}
+                title={book.title}
+                titleColor={book.titleColor}
+                className={`md:col-span-3 bg-gradient-to-br ${book.coverColor}`}
+                icon={<BookOpen className={`w-5 h-5 ${book.iconColor}`} />}
+                delay={index + 1}
+              >
+                <div className="space-y-4 mt-2">
+                  <p>{book.description}</p>
 
-                <div className="flex flex-wrap gap-2">
-                  {book.tags.map((tag: string) => (
+                  <div className="flex flex-wrap gap-2">
+                    {book.tags.map((tag: string) => (
+                      <Link
+                        key={tag}
+                        to={`/tags/${encodeURIComponent(tag)}`}
+                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-muted/50 text-muted-foreground"
+                      >
+                        <TagIcon className="w-3 h-3 mr-1" />
+                        {tag}
+                      </Link>
+                    ))}
+                  </div>
+
+                  <div className="flex justify-between items-center">
+                    <RatingStars rating={book.rating} />
+
                     <Link
-                      key={tag}
-                      to={`/tags/${encodeURIComponent(tag)}`}
-                      className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-muted/50 text-muted-foreground"
+                      to={`/books/${book.id}`}
+                      className="flex items-center text-primary hover:underline"
                     >
-                      <TagIcon className="w-3 h-3 mr-1" />
-                      {tag}
+                      查看详情 <ArrowRight className="ml-1 w-4 h-4" />
                     </Link>
-                  ))}
+                  </div>
                 </div>
-
-                <div className="flex justify-between items-center">
-                  <RatingStars rating={book.rating} />
-
-                  <Link
-                    to={`/books/${book.id}`}
-                    className="flex items-center text-primary hover:underline"
-                  >
-                    查看详情 <ArrowRight className="ml-1 w-4 h-4" />
-                  </Link>
-                </div>
-              </div>
-            </BentoItem>
-          ))}
-        </BentoGrid>
+              </BentoItem>
+            ))}
+          </BentoGrid>
+        ) : (
+          <div className="text-center py-16 bg-muted/5 rounded-xl border border-border">
+            <BookOpen className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-xl font-medium mb-2">暂无书籍</h3>
+            <p className="text-muted-foreground">这个标签下暂时还没有书籍</p>
+          </div>
+        )}
       </motion.div>
 
       <motion.footer
