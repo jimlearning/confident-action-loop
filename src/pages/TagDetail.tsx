@@ -1,15 +1,13 @@
-
 import BentoGrid from '@/components/BentoGrid';
 import BentoItem from '@/components/BentoItem';
 import Navbar from '@/components/Navbar';
 import { getBookData, getTagByName } from '@/utils/data';
 import { motion } from 'framer-motion';
-import { ArrowLeft, BookOpen, Star, Tag as TagIcon } from 'lucide-react';
+import { ArrowLeft, ArrowRight, BookOpen, Star, Tag as TagIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
-// 渲染星级评分
 const RatingStars = ({ rating }: { rating: number }) => {
   const fullStars = Math.floor(rating);
   const hasHalfStar = rating % 1 >= 0.5;
@@ -44,7 +42,6 @@ const TagDetail = () => {
     const fetchData = async () => {
       if (!tagName) return;
       
-      // Decode the URL-encoded tag name
       const decodedTagName = decodeURIComponent(tagName);
       
       const tagData = getTagByName(decodedTagName);
@@ -94,7 +91,6 @@ const TagDetail = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col items-center overflow-x-hidden">
-      {/* Background gradient */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-bento-purple/20 rounded-full filter blur-[120px] opacity-20" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-bento-blue/20 rounded-full filter blur-[120px] opacity-20" />
@@ -102,7 +98,6 @@ const TagDetail = () => {
 
       <Navbar />
 
-      {/* Tag Header */}
       <motion.div
         className="w-full max-w-7xl px-4 md:px-8 mt-24 mb-12"
         initial={{ opacity: 0, y: 20 }}
@@ -142,7 +137,6 @@ const TagDetail = () => {
         />
       </motion.div>
 
-      {/* Books Grid */}
       <motion.div
         className="w-full max-w-7xl px-4 md:px-8 mb-20"
         initial={{ opacity: 0 }}
@@ -191,7 +185,6 @@ const TagDetail = () => {
         </BentoGrid>
       </motion.div>
 
-      {/* Footer */}
       <motion.footer
         className="w-full py-8 text-center text-muted-foreground text-sm border-t border-border mt-auto"
         initial={{ opacity: 0 }}
