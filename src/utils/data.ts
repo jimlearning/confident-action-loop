@@ -12,7 +12,9 @@ async function checkBookExists(bookId: string) {
     // 在开发环境和生产环境中都尝试获取资源
     // 首先尝试使用fetch方法获取
     const isDev = import.meta.env.DEV;
-    const basePath = isDev ? '/src/resources/books' : '/books';
+    // 在生产环境中，从根路径加载JSON资源
+    const baseUrl = import.meta.env.BASE_URL || '/';
+    const basePath = isDev ? '/src/resources/books' : `${baseUrl}assets/books`;
     const path = `${basePath}/${bookId}.json`;
     
     console.log(`[checkBookExists] 尝试使用fetch检查书籍 ${bookId}，路径: ${path}`);
@@ -59,7 +61,9 @@ export async function getBookData(bookId: string) {
         console.log(`[getBookData] 尝试加载书籍 ${bookId}，第 ${retryCount + 1} 次尝试`);
         // 根据环境动态选择路径
         const isDev = import.meta.env.DEV;
-        const basePath = isDev ? '/src/resources/books' : '/books';
+        // 在生产环境中，从根路径加载JSON资源
+        const baseUrl = import.meta.env.BASE_URL || '/';
+        const basePath = isDev ? '/src/resources/books' : `${baseUrl}assets/books`;
         const path = `${basePath}/${bookId}.json`;
         console.log('Loading book from:', path);
         const response = await fetch(path);
