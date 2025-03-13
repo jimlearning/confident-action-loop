@@ -1,12 +1,12 @@
 
 import BentoGrid from '@/components/BentoGrid';
 import BentoItem from '@/components/BentoItem';
+import { cn } from '@/lib/utils';
 import { getBookData, getTagByName } from '@/utils/data';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, BookOpen, Star, Tag as TagIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { cn } from '@/lib/utils';
 
 const RatingStars = ({ rating }: { rating: number }) => {
   const fullStars = Math.floor(rating);
@@ -41,24 +41,24 @@ const TagDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (!tagName) return;
-      
+
       const decodedTagName = decodeURIComponent(tagName);
-      
+
       const tagData = getTagByName(decodedTagName);
       setTag(tagData);
-      
+
       if (tagData?.books) {
-        const bookPromises = tagData.books.map((book: { id: string }) => 
+        const bookPromises = tagData.books.map((book: { id: string }) =>
           getBookData(book.id)
         );
-        
+
         const bookData = await Promise.all(bookPromises);
         setBooks(bookData.filter(Boolean));
       }
-      
+
       setLoading(false);
     };
-    
+
     fetchData();
   }, [tagName]);
 
@@ -95,7 +95,7 @@ const TagDetail = () => {
       </div>
 
       <motion.div
-        className="w-full max-w-7xl px-4 md:px-8 mt-24 mb-12"
+        className="w-full max-w-7xl px-4 md:px-8 mt-12 mb-12"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -104,8 +104,8 @@ const TagDetail = () => {
           <ArrowLeft className="w-4 h-4 mr-2" />
           返回标签列表
         </Link>
-        
-        <motion.div 
+
+        <motion.div
           className="flex items-center gap-3 mb-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

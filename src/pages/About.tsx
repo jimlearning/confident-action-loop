@@ -1,6 +1,5 @@
 import BentoGrid from '@/components/BentoGrid';
 import BentoItem from '@/components/BentoItem';
-import Navbar from '@/components/Navbar';
 import { motion } from 'framer-motion';
 import { BookOpen, Github, Linkedin, Mail, Twitter } from 'lucide-react';
 
@@ -12,8 +11,6 @@ const About = () => {
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-bento-purple/20 rounded-full filter blur-[120px] opacity-20" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-bento-blue/20 rounded-full filter blur-[120px] opacity-20" />
       </div>
-
-      <Navbar />
 
       {/* About Header */}
       <motion.div

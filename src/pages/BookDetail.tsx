@@ -1,16 +1,17 @@
 
-import { motion, useAnimation } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { getBookData, getRelatedBooks } from '@/utils/data';
+import { motion, useAnimation } from 'framer-motion';
+import { ArrowLeft } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 // Import our extracted components
-import BookHeader from '@/components/book/BookHeader';
 import BookContent from '@/components/book/BookContent';
+import BookHeader from '@/components/book/BookHeader';
+import BookQuotes from '@/components/book/BookQuotes';
+import ConfidenceRules from '@/components/book/ConfidenceRules';
 import KeyPoints from '@/components/book/KeyPoints';
 import RelatedBooks from '@/components/book/RelatedBooks';
-import ConfidenceRules from '@/components/book/ConfidenceRules';
-import BookQuotes from '@/components/book/BookQuotes';
 
 const BookDetail = () => {
   const { bookId } = useParams<{ bookId: string }>();
@@ -22,26 +23,26 @@ const BookDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (!bookId) return;
-      
+
       try {
         setLoading(true);
         // Get main book data
         const bookData = await getBookData(bookId);
         setBook(bookData);
-        
+
         if (bookData && bookData.tags) {
           // Get related books
           const related = await getRelatedBooks(bookId, bookData.tags);
           setRelatedBooks(related);
         }
-        
+
         setLoading(false);
       } catch (error) {
         console.error("Error loading book data:", error);
         setLoading(false);
       }
     };
-    
+
     fetchData();
     // Reset state when bookId changes
     return () => {
@@ -74,6 +75,13 @@ const BookDetail = () => {
         <div className="text-center mt-24">
           <h1 className="text-3xl font-bold mb-4">书籍未找到</h1>
           <p className="mb-6 text-muted-foreground">抱歉，我们找不到您请求的书籍</p>
+          <button
+            onClick={() => window.history.back()}
+            className="flex items-center text-muted-foreground hover:text-foreground mb-8 transition-colors mx-auto"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            返回
+          </button>
         </div>
       </div>
     );

@@ -1,8 +1,8 @@
 
-import { Link } from 'react-router-dom';
-import { ArrowLeft, BookOpen, Star, Tag } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
+import { ArrowLeft, BookOpen, Star, Tag } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface RatingStarsProps {
   rating: number;
@@ -38,18 +38,21 @@ interface BookHeaderProps {
 
 const BookHeader = ({ book }: BookHeaderProps) => {
   if (!book) return null;
-  
+
   return (
     <motion.header
-      className="w-full py-8 px-4 md:px-8 flex flex-col items-center justify-center text-center mt-16"
+      className="w-full py-8 px-4 md:px-8 flex flex-col items-center justify-center text-center mt-8"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Link to="/timelines" className="self-start flex items-center text-muted-foreground hover:text-foreground mb-6 transition-colors">
+      <button
+        onClick={() => window.history.back()}
+        className="self-start flex items-center text-muted-foreground hover:text-foreground mb-8 transition-colors"
+      >
         <ArrowLeft className="w-4 h-4 mr-2" />
-        返回时间轴
-      </Link>
+        返回
+      </button>
 
       <motion.div
         className="relative"

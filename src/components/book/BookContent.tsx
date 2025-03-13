@@ -2,7 +2,7 @@
 import BentoGrid from '@/components/BentoGrid';
 import BentoItem from '@/components/BentoItem';
 import { motion } from 'framer-motion';
-import { ArrowRight, BrainCircuit, BookOpen, CheckCircle2, Heart, Lightbulb, XCircle } from 'lucide-react';
+import { ArrowRight, BookOpen, BrainCircuit, CheckCircle2, Heart, Lightbulb, XCircle } from 'lucide-react';
 import React from 'react';
 
 // 动态获取图标
@@ -13,7 +13,7 @@ const getIconComponent = (iconName: string) => {
     Lightbulb: <Lightbulb className="w-5 h-5" />,
     ArrowRightFromLine: <ArrowRight className="w-5 h-5" />
   };
-  
+
   return icons[iconName] || <BookOpen className="w-5 h-5" />;
 };
 
@@ -23,7 +23,20 @@ interface BookContentProps {
 }
 
 const BookContent = ({ book, controls }: BookContentProps) => {
-  if (!book || !book.content) return null;
+  if (!book || !book.content) {
+    console.error('Book content is missing:', book);
+    return null;
+  }
+
+  // Validate required content structure
+  if (!book.content.misconception || !book.content.reality || !book.content.sections) {
+    console.error('Invalid book content structure:', book.content);
+    return (
+      <div className="w-full max-w-7xl px-4 md:px-8 mb-12 text-center text-muted-foreground">
+        <p>内容结构不完整</p>
+      </div>
+    );
+  }
 
   return (
     <motion.div
