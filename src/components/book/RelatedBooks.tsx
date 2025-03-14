@@ -1,8 +1,7 @@
-
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { BookOpen } from 'lucide-react';
-import { RatingStars } from './BookHeader';
+import RatingStars from '@/components/RatingStars';
 
 interface RelatedBooksProps {
   books: any[];

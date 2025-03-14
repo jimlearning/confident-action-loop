@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { ArrowRight, BookOpen, Star, Tag } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import RatingStars from '@/components/RatingStars';
 
 // 模拟数据 - 在实际应用中可以从API获取
 const books = [
@@ -108,31 +109,6 @@ const books = [
     iconColor: 'text-cyan-400'
   }
 ];
-
-// 渲染星级评分
-const RatingStars = ({ rating }: { rating: number }) => {
-  const fullStars = Math.floor(rating);
-  const hasHalfStar = rating % 1 >= 0.5;
-
-  return (
-    <div className="flex items-center">
-      {[...Array(5)].map((_, i) => (
-        <Star
-          key={i}
-          className={cn(
-            "w-4 h-4",
-            i < fullStars
-              ? "text-yellow-400 fill-yellow-400"
-              : i === fullStars && hasHalfStar
-                ? "text-yellow-400 fill-yellow-400/50"
-                : "text-muted-foreground"
-          )}
-        />
-      ))}
-      <span className="ml-1 text-sm text-muted-foreground">{rating.toFixed(1)}</span>
-    </div>
-  );
-};
 
 const Books = () => {
   return (

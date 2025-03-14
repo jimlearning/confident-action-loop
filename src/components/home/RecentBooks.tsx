@@ -1,10 +1,12 @@
 
-import { motion } from 'framer-motion';
-import { Book, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import BentoGrid from '@/components/BentoGrid';
+import BentoItem from '@/components/BentoItem';
 import { cn } from '@/lib/utils';
 import { getTimelineData } from '@/utils/data';
+import { motion } from 'framer-motion';
+import { ArrowRight, Book, BookOpen, Star, Tag } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 interface BookType {
   id: string;
@@ -16,11 +18,38 @@ interface BookType {
   coverColor: string;
   titleColor: string;
   iconColor: string;
+  tags: string[];
+  rating: number;
 }
+
+// 渲染星级评分
+const RatingStars = ({ rating }: { rating: number }) => {
+  const fullStars = Math.floor(rating);
+  const hasHalfStar = rating % 1 >= 0.5;
+
+  return (
+    <div className="flex items-center">
+      {[...Array(5)].map((_, i) => (
+        <Star
+          key={i}
+          className={cn(
+            "w-4 h-4",
+            i < fullStars
+              ? "text-yellow-400 fill-yellow-400"
+              : i === fullStars && hasHalfStar
+                ? "text-yellow-400 fill-yellow-400/50"
+                : "text-muted-foreground"
+          )}
+        />
+      ))}
+      <span className="ml-1 text-sm text-muted-foreground">{rating.toFixed(1)}</span>
+    </div>
+  );
+};
 
 const RecentBooks = () => {
   const [recentBooks, setRecentBooks] = useState<BookType[]>([]);
-  
+
   useEffect(() => {
     const data = getTimelineData();
     // Get the most recent books (first 4 books from the most recent year)
@@ -42,7 +71,7 @@ const RecentBooks = () => {
           <Book className="w-5 h-5 text-primary" />
           <span className="text-primary font-medium">最新阅读</span>
         </div>
-        
+
         <h2 className="text-3xl font-bold mb-2">
           近期<span className="text-primary">阅读</span>书籍
         </h2>
@@ -50,47 +79,48 @@ const RecentBooks = () => {
           这些是我最近阅读的一些书籍，点击查看详细笔记
         </p>
       </motion.div>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+      {/* Books Grid */}
+      <BentoGrid>
         {recentBooks.map((book, index) => (
-          <motion.div
+          <BentoItem
             key={book.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1, duration: 0.3 }}
+            title={book.title}
+            titleColor={book.titleColor}
+            className={`bg-gradient-to-br ${book.coverColor}`}
+            icon={<BookOpen className={`w-5 h-5 ${book.iconColor}`} />}
+            delay={index}
+            chip={book.category}
           >
-            <Link to={`/books/${book.id}`}>
-              <div className={cn(
-                "rounded-xl p-4 h-full border transition-transform duration-300 hover:scale-105",
-                "bg-gradient-to-br", book.coverColor
-              )}>
-                <div className="flex items-center gap-3 mb-2">
-                  <p className={cn("text-sm font-medium", book.titleColor)}>
-                    {new Date(book.date).toLocaleDateString('zh-CN', { 
-                      year: 'numeric',
-                      month: 'short',
-                      day: 'numeric'
-                    })}
-                  </p>
-                  <div className="h-1 w-1 rounded-full bg-foreground/40" />
-                  <p className="text-sm text-foreground/70">{book.category}</p>
-                </div>
-                
-                <h3 className={cn("text-xl font-bold mb-2", book.titleColor)}>{book.title}</h3>
-                <p className="text-sm mb-2 text-foreground/80">作者: {book.author}</p>
-                <p className="text-sm text-foreground/60 mb-4 line-clamp-2">{book.description}</p>
-                
-                <div className={cn(
-                  "inline-flex items-center text-sm font-medium transition-colors",
-                  book.titleColor, "hover:underline"
-                )}>
-                  阅读笔记 <ArrowRight className="ml-1 w-4 h-4" />
-                </div>
+            <div className="space-y-3">
+              <p className="text-muted-foreground">{book.description}</p>
+
+              <div className="flex flex-wrap gap-2 mt-2">
+                {book.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center px-2 py-1 rounded-md bg-muted/50 text-xs"
+                  >
+                    <Tag className="w-3 h-3 mr-1" />
+                    {tag}
+                  </span>
+                ))}
               </div>
-            </Link>
-          </motion.div>
+
+              <div className="flex items-center justify-between mt-3">
+                <RatingStars rating={book.rating} />
+
+                <Link
+                  to={`/books/${book.id}`}
+                  className="flex items-center text-primary hover:underline"
+                >
+                  查看详情 <ArrowRight className="ml-1 w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </BentoItem>
         ))}
-      </div>
+      </BentoGrid>
     </div>
   );
 };

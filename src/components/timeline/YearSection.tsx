@@ -14,6 +14,8 @@ interface TimelineBook {
   coverColor: string;
   titleColor: string;
   iconColor: string;
+  tags?: string[];
+  rating?: number;
 }
 
 interface YearSectionProps {
@@ -43,9 +45,9 @@ const YearSection = ({ year, books }: YearSectionProps) => {
 
       <div className="relative flex flex-col items-center">
         {books.map((book, index) => (
-          <TimelineItem 
+          <TimelineItem
             key={book.id}
-            book={book} 
+            book={book}
             index={index}
             isFirst={index === 0}
             isLast={index === books.length - 1}

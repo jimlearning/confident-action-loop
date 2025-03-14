@@ -3,10 +3,9 @@ import BentoGrid from '@/components/BentoGrid';
 import BentoItem from '@/components/BentoItem';
 import { cn } from '@/lib/utils';
 import { getAllTags } from '@/utils/data';
-import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, BookOpen, Tag as TagIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 interface TagData {
@@ -23,7 +22,7 @@ const Tags = () => {
   const [tags, setTags] = useState<TagData[]>([]);
 
   const [isLoading, setIsLoading] = useState(true);
-  
+
   useEffect(() => {
     const loadTags = async () => {
       try {
@@ -34,7 +33,7 @@ const Tags = () => {
         setIsLoading(false);
       }
     };
-    
+
     loadTags();
   }, []);
 
@@ -124,7 +123,7 @@ const Tags = () => {
             <div className="space-y-4 mt-2">
               <p>{tag.description}</p>
 
-              <div className="bg-muted/5 p-4 rounded-lg">
+              <div className="p-4 rounded-lg bg-background/30 text-foreground/50 dark:bg-white/10 dark:text-white/50">
                 <h3 className="font-medium mb-3">相关书籍：</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {tag.books.map(book => (
@@ -173,7 +172,8 @@ const TagItem = React.memo(({ tag, index }: { tag: TagData; index: number }) => 
   <Link to={`/tags/${encodeURIComponent(tag.name)}`}>
     <motion.div
       className={cn(
-        "flex items-center gap-2 px-4 py-3 rounded-xl",
+        // "flex items-center space-x-2 px-4 py-2 rounded-full bg-muted/50 border border-border hover:bg-muted transition-colors",
+        "flex items-center gap-2 px-4 py-3 rounded-full",
         "transition-all hover:shadow-lg border",
         "bg-gradient-to-br cursor-pointer",
         tag.color
